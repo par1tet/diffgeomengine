@@ -16,6 +16,8 @@ int main(){
 
     Manifold* manifold = new Manifold(metric);
 
+    
+
     delete metric;
     delete manifold;
     return 0;

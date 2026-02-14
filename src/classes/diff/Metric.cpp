@@ -1,7 +1,10 @@
 #include<core/classes/diff/Metric.hpp>
 #include <stdexcept>
+#include <cmath>
+#include <algorithm>
+#include<core/classes/compute/invert_matrix.hpp>
 
-Metric::Metric(const std::vector<std::vector<std::function<double(const std::vector<double>&)>>>& components): metricComponents(components) {}
+Metric::Metric(const Components& components): metricComponents(components) {};
 
 Metric::Metric(const std::vector<std::function<double(const std::vector<double>&)>>& components) {
     size_t n = components.size();
@@ -34,8 +37,12 @@ std::function<double(const std::vector<double>&)> Metric::getComponent(int i, in
         throw std::runtime_error("Component at (" + std::to_string(i) + "," + 
                                  std::to_string(j) + ") is not initialized");
     }
-    
+   
     return metricComponents[i][j];
+}
+
+double Metric::getReverseInPoint(std::vector<double> point, int i, int j){
+    return invertComponentMatrix((this->metricComponents), point).at(i).at(j);
 }
 
 int Metric::getSize(){
