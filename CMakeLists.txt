@@ -7,6 +7,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(${PROJECT_NAME} 
         src/main.cpp
         src/classes/diff/Manifold.cpp
+        src/classes/diff/Metric.cpp
+        src/classes/compute/rk4_realize.cpp
+        src/classes/compute/partical_differentiation.cpp
 )
 
 find_package(glm REQUIRED)

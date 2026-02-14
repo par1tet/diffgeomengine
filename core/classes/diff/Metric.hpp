@@ -3,5 +3,6 @@
 #include<glm/gtc/type_ptr.hpp>
 
 class Metric{
-
+public:
+    Metric();
 };
