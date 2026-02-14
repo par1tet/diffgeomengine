@@ -2,6 +2,10 @@
 #include <stdexcept>
 
 double diffBy(std::function<double(const std::vector<double>&)> func, const std::vector<double>& point, int p_index, double dx){
+    if(func == nullptr){
+        return 0;
+    }
+
     if (p_index < 0 || p_index >= point.size()) {
         throw std::out_of_range("Index out of bounds in diffBy");
     }

@@ -1,8 +1,13 @@
-#include<glm/glm.hpp>
-#include<glm/gtc/matrix_transform.hpp>
-#include<glm/gtc/type_ptr.hpp>
+#include<vector>
+#include<functional>
 
 class Metric{
 public:
-    Metric();
+    Metric(const std::vector<std::vector<std::function<double(const std::vector<double>&)>>>&);
+    Metric(const std::vector<std::function<double(const std::vector<double>&)>>&);
+
+    std::function<double(const std::vector<double>&)> getComponent(int i, int j);
+    int getSize();
+private:
+    std::vector<std::vector<std::function<double(const std::vector<double>&)>>> metricComponents;
 };

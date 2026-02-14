@@ -2,16 +2,21 @@
 #include<core/classes/diff/Manifold.hpp>
 #include<core/classes/compute/partical_differentiation.hpp>
 
-double f(std::vector<double> x){
-    return (x[0])*(x[0]);
+double func1(std::vector<double> x){
+    return 1;
+}
+
+double func2(std::vector<double> x){
+    return x[1]*x[1];
 }
 
 int main(){
-    Manifold* manifold = new Manifold(new Metric());
-    //manifold->showmetric();
-    std::vector<double> point{0};
+    std::vector<std::function<double(const std::vector<double>&)>> funcs = {func1, func2};
+    Metric* metric = new Metric(funcs);
 
-    std::cout << diffBy(f, point, 0) << std::endl;
+    Manifold* manifold = new Manifold(metric);
 
+    delete metric;
+    delete manifold;
     return 0;
 }

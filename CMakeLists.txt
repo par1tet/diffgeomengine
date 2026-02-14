@@ -10,6 +10,7 @@ add_executable(${PROJECT_NAME}
         src/classes/diff/Metric.cpp
         src/classes/compute/rk4_realize.cpp
         src/classes/compute/partical_differentiation.cpp
+        src/classes/diff/ChristoffelSymbols.cpp
 )
 
 find_package(glm REQUIRED)
