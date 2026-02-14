@@ -1,4 +1,5 @@
 #include<core/classes/compute/invert_matrix.hpp>
+#include<iostream>
 
 std::vector<std::vector<double>> invertComponentMatrix(
     const std::vector<std::vector<std::function<double(const std::vector<double>&)>>>& componentMatrix,
@@ -8,6 +9,7 @@ std::vector<std::vector<double>> invertComponentMatrix(
     if (n == 0) {
         throw std::invalid_argument("Matrix is empty");
     }
+
     
     // Проверка, что матрица квадратная
     for (const auto& row : componentMatrix) {
@@ -15,11 +17,15 @@ std::vector<std::vector<double>> invertComponentMatrix(
             throw std::invalid_argument("Component matrix must be square");
         }
     }
+
     
     // 1. Вычисляем значения всех функций в заданной точке
     std::vector<std::vector<double>> A(n, std::vector<double>(n));
     for (size_t i = 0; i < n; ++i) {
         for (size_t j = 0; j < n; ++j) {
+            if(componentMatrix[i][j] == nullptr){
+                continue;
+            }
             A[i][j] = componentMatrix[i][j](point);
         }
     }

@@ -3,6 +3,11 @@
 #include <cmath>
 #include <algorithm>
 #include<core/classes/compute/invert_matrix.hpp>
+#include <iostream>
+
+double funcZero(std::vector<double> x){
+    return 0;
+}
 
 Metric::Metric(const Components& components): metricComponents(components) {};
 
@@ -18,7 +23,7 @@ Metric::Metric(const std::vector<std::function<double(const std::vector<double>&
             if (i == j) {
                 metricComponents[i][j] = components[i];
             } else {
-                metricComponents[i][j] = nullptr;
+                metricComponents[i][j] = funcZero;
             }
         }
     }
@@ -42,7 +47,7 @@ std::function<double(const std::vector<double>&)> Metric::getComponent(int i, in
 }
 
 double Metric::getReverseInPoint(std::vector<double> point, int i, int j){
-    return invertComponentMatrix((this->metricComponents), point).at(i).at(j);
+    return invertComponentMatrix((this->metricComponents), point)[i][j];
 }
 
 int Metric::getSize(){
