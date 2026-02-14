@@ -1,7 +1,10 @@
 #include<iostream>
+#include<core/classes/diff/Manifold.hpp>
+
 
 int main(){
-    std::cout << "hi" << std::endl;
+    Manifold* manifold = new Manifold(new Metric());
+    manifold->showmetric();
 
     return 0;
 }
