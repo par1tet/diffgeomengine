@@ -1,9 +1,10 @@
 #include<core/classes/compute/rk4_realize.hpp>
+#include<iostream>
 
-std::vector<double> computeRK4(double time, std::function<std::vector<double>(double, std::vector<double>)> func, const std::vector<double>& initCondition, double dx=0.02){
+std::vector<double> computeRK4(double time, std::function<std::vector<double>(double, std::vector<double>)> func, const std::vector<double>& initCondition, double dx){
     std::vector<double> k1 = func(time, initCondition);
 
-    std::vector<double> tempInitCondition;
+    std::vector<double> tempInitCondition(initCondition.size());
     for(int i = 0;i != initCondition.size();i++){
         tempInitCondition[i] = initCondition[i] + (dx*k1[i])/2;
     }

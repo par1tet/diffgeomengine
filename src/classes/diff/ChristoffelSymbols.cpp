@@ -1,7 +1,6 @@
 #include<core/classes/diff/ChristoffelSymbols.hpp>
 #include <stdexcept>
 #include <core/classes/compute/partical_differentiation.hpp>
-#include <iostream>
 
 ChristoffelSymbols::ChristoffelSymbols(Metric* metric): currentMetric(metric){
 };
@@ -21,4 +20,8 @@ double ChristoffelSymbols::computeChristoffelSybmbolsAtPoint(std::vector<double>
     }
 
     return result/2;
+}
+
+Metric* ChristoffelSymbols::getMetric(){
+    return this->currentMetric;
 }

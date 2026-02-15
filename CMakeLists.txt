@@ -12,6 +12,7 @@ add_executable(${PROJECT_NAME}
         src/classes/compute/partical_differentiation.cpp
         src/classes/diff/ChristoffelSymbols.cpp
         src/classes/compute/invert_matrix.cpp
+        src/classes/diff/Geodesic.cpp
 )
 
 find_package(glm REQUIRED)
