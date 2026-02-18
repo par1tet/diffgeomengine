@@ -3,3 +3,5 @@ build
 glad
 /glad
 ./libs/glad
+libs
+/libs

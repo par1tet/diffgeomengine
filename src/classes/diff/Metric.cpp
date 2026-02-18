@@ -53,3 +53,17 @@ double Metric::getReverseInPoint(std::vector<double> point, int i, int j){
 int Metric::getSize(){
     return metricComponents[0].size();
 }
+
+
+std::vector<std::vector<double>> Metric::getMatrixAtPoint(std::vector<double> point){
+    int n = this->getSize();
+    std::vector<std::vector<double>> matrix(n, std::vector<double>(n, 0));
+
+    for(int i = 0;i != n;i++){
+        for(int j = i;j != n;j++){
+            matrix[i][j] = this->getComponent(i, j)(point);
+        }
+    }
+
+    return matrix;
+}

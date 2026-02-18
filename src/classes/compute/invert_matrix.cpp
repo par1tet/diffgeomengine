@@ -50,9 +50,9 @@ std::vector<std::vector<double>> invertComponentMatrix(
         }
         
         // Проверка на вырожденность матрицы
-        if (maxElement < 1e-12) {
-            throw std::runtime_error("Matrix is singular or nearly singular at given point");
-        }
+        // if (maxElement < 1e-12) {
+        //     throw std::runtime_error("Matrix is singular or nearly singular at given point");
+        // }
         
         // Перестановка строк
         if (maxRow != k) {

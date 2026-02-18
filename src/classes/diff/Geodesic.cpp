@@ -1,5 +1,7 @@
 #include<core/classes/diff/Geodesic.hpp>
 #include<core/classes/compute/rk4_realize.hpp>
+#include<iostream>
+#include<cmath>
 
 Geodesic::Geodesic(ChristoffelSymbols* christo): currentChristoffelSymbols(christo){};
 
@@ -34,9 +36,29 @@ std::vector<double> Geodesic::geodesicRhs(double time, std::vector<double>& init
     return dInit;
 }
 
-std::vector<double> Geodesic::getGeodesicNextState(double time, std::vector<double>& initConditions, double dx){
+std::vector<double> Geodesic::computeGeodesicNextState(double time, std::vector<double>& initConditions, double dx){
     return computeRK4(time,
         [this](double t, std::vector<double> y) {
             return this->geodesicRhs(t, y);
         },initConditions, dx);
+}
+
+Curve Geodesic::computeGeodesic(double T, std::vector<double>& initConditions, double dx){
+    Curve geodesic;
+    std::vector<double> newInitConditions = initConditions;
+    int n = initConditions.size()/2;
+
+    for(double time;time <= T;time+=dx){
+        //if(newInitConditions[0] > M_PI - 0.1)
+        //    break;
+        newInitConditions = this->computeGeodesicNextState(time, newInitConditions, dx);
+        geodesic.points.push_back(newInitConditions);
+    }
+
+
+    for(int i = 0;i != geodesic.points.size();i++){
+        geodesic.points[i].resize(n);
+    }
+
+    return geodesic;
 }

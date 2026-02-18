@@ -11,6 +11,7 @@ public:
     std::function<double(const std::vector<double>&)> getComponent(int i, int j);
     double getReverseInPoint(std::vector<double> point, int i, int j);
     int getSize();
+    std::vector<std::vector<double>> getMatrixAtPoint(std::vector<double> point);
 private:
     Components metricComponents;
 };

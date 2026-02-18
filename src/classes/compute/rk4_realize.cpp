@@ -1,5 +1,4 @@
 #include<core/classes/compute/rk4_realize.hpp>
-#include<iostream>
 
 std::vector<double> computeRK4(double time, std::function<std::vector<double>(double, std::vector<double>)> func, const std::vector<double>& initCondition, double dx){
     std::vector<double> k1 = func(time, initCondition);

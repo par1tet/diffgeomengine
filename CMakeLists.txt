@@ -13,10 +13,16 @@ add_executable(${PROJECT_NAME}
         src/classes/diff/ChristoffelSymbols.cpp
         src/classes/compute/invert_matrix.cpp
         src/classes/diff/Geodesic.cpp
+        src/classes/visual/MetricGrid.cpp
 )
 
+add_library(glad STATIC libs/glad/src/glad.c)
+target_include_directories(glad PUBLIC libs/glad/include)
+
+find_package(glfw3 REQUIRED)
+find_package(OpenGL REQUIRED)
 find_package(glm REQUIRED)
 
-target_link_libraries(diffgemeng PRIVATE glm::glm)
+target_link_libraries(diffgemeng PRIVATE glad glfw OpenGL::GL glm::glm)
 
 target_include_directories(diffgemeng PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
