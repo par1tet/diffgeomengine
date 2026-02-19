@@ -1,6 +1,7 @@
 #include<core/classes/visual/MetricGrid.hpp>
 #include <random>
 #include<iostream>
+#include<exception>
 
 MetricGrid::MetricGrid(Manifold* manifold): manifold(manifold){
 }
@@ -15,7 +16,21 @@ MetricGrid::computePoints(
     int directionDensity,
     std::vector<double> origin,
     std::function<std::vector<double>(std::vector<double>)> force){
-    int N = this->manifold->getMetric()->getSize();
+    int N = this->manifold->getDimension();
+
+    // -------
+
+    if(gaps.size() != N){
+        std::runtime_error("Size of gaps vector must equals dimension of manifold");
+    }
+    int originSize = origin.size();
+    if(originSize != 0){
+        if(originSize != N){
+            std::runtime_error("Size of origin vector must equals dimension of manifold");
+        }
+    }
+
+    // -------
     
     std::vector<Curve> allCurves;
 
@@ -46,22 +61,21 @@ MetricGrid::computePoints(
 
         for(int d = 0; d < directionDensity; ++d)
         {
-            std::vector<double> v0(N, 0.0);
-
-            if (N >= 2)
-            {
-                double angle = 2.0 * M_PI * d / directionDensity;
-
-                v0[0] = std::cos(angle);
-                v0[1] = std::sin(angle) / x0[0];
+            State initState(N);
+            for(int i = 0;i != N;i++){
+                initState.x0[i] = x0[i];
             }
 
-            manifold->normalizeVelocity(x0, v0);
+            if (N >= 2){
+                double angle = 2.0 * M_PI * d / directionDensity;
 
-            std::vector<double> initConditions = x0;
-            initConditions.insert(initConditions.end(), v0.begin(), v0.end());
+                initState.v0[0] = std::cos(angle);
+                initState.v0[1] = std::sin(angle) / x0[0];
+            }
 
-            Curve geodesic = manifold->getGeodesic()->computeGeodesic(T, initConditions, dt, force);
+            initState = manifold->normalizeVelocity(initState);
+
+            Curve geodesic = manifold->getGeodesic()->computeGeodesic(T, initState, dt, force);
 
             Curve embeddedCurve;
             embeddedCurve.points.reserve(geodesic.points.size());

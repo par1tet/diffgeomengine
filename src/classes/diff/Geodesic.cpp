@@ -3,64 +3,60 @@
 #include<iostream>
 #include<cmath>
 
-Geodesic::Geodesic(ChristoffelSymbols* christo): currentChristoffelSymbols(christo){};
+Geodesic::Geodesic(ChristoffelSymbols* christo): christoffelSymbols(christo){};
 
-std::vector<double> Geodesic::geodesicRhs(double time, std::vector<double>& initConditioins,
+
+Geodesic::~Geodesic(){
+    delete this->christoffelSymbols;
+}
+
+State Geodesic::geodesicRhs(double time, State& initState,
         std::function<std::vector<double>(std::vector<double>)> force){
-    std::vector<double> dInit(initConditioins.size());
-    int n = (int)(initConditioins.size()/2);
+    State dInit(initState.dimension);
 
-    std::vector<double> x(n), v(n);
-
-    for(int i = 0;i != n;i++){
-        x[i] = initConditioins[i];
-        v[i] = initConditioins[i+n];
+    for(int i = 0;i != initState.dimension;i++){
+        dInit.x0[i] = initState.v0[i];
     }
 
-    for(int i = 0;i != n;i++){
-        dInit[i] = v[i];
-    }
-
-    for(int k = 0;k != n;k++){
+    for(int k = 0;k != initState.dimension;k++){
         double acc = 0.f;
 
-        for(int i = 0;i != n;i++){
-            for(int j = 0;j != n; j++){
-                acc += this->currentChristoffelSymbols->computeChristoffelSybmbolsAtPoint(x, k, i, j)* v[i] * v[j];
+        for(int i = 0;i != initState.dimension;i++){
+            for(int j = 0;j != initState.dimension; j++){
+                acc += this->christoffelSymbols->computeChristoffelSybmbolsAtPoint(initState.x0, k, i, j) * initState.v0[i] * initState.v0[j];
             }
         }
-        acc += force(x)[k];
+        acc += force(initState.x0)[k];
 
-        dInit[k+n] = -acc;
+        dInit.v0[k] = -acc;
     }
 
     return dInit;
 }
 
-std::vector<double> Geodesic::computeGeodesicNextState(double time, std::vector<double>& initConditions, double dx,
+State Geodesic::computeGeodesicNextState(double time, State& initState, double dx,
          std::function<std::vector<double>(std::vector<double>)> force){
     return computeRK4(time,
-        [this, force](double t, std::vector<double> y) {
-            return this->geodesicRhs(t, y, force);
-        },initConditions, dx);
+        [this, force](double t, State state) {
+            return this->geodesicRhs(t, state, force);
+        },initState, dx);
 }
 
-Curve Geodesic::computeGeodesic(double T, std::vector<double>& initConditions, double dx,
+Curve Geodesic::computeGeodesic(double T, State& initState, double dx,
          std::function<std::vector<double>(std::vector<double>)> force){
     Curve geodesic;
-    std::vector<double> newInitConditions = initConditions;
-    int n = initConditions.size()/2;
+    State newInitState = initState;
 
     for(double time;time <= T;time+=dx){
-        //if(newInitConditions[0] > M_PI - 0.1)
+        //if(newInitState[0] > M_PI - 0.1)
         //    break;
-        newInitConditions = this->computeGeodesicNextState(time, newInitConditions, dx, force);
-        geodesic.points.push_back(newInitConditions);
+        newInitState = this->computeGeodesicNextState(time, newInitState, dx, force);
+        geodesic.points.push_back(newInitState.x0);
     }
 
 
     for(int i = 0;i != geodesic.points.size();i++){
-        geodesic.points[i].resize(n);
+        geodesic.points[i].resize(initState.dimension);
     }
 
     return geodesic;

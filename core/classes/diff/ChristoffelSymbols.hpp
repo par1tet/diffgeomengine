@@ -1,3 +1,5 @@
+#pragma once
+
 #include<core/classes/diff/Metric.hpp>
 
 class ChristoffelSymbols{

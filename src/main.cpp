@@ -11,9 +11,7 @@
 #include <string>
 
 // TODO: 1. Доделать класс многообразия
-// 3. Добавить силу на многообразии
 // 4. Рефактор кода, и сделать номральную архитектуру
-// 5. Сделать произвольный клиппинг, что бы работала произвольная метрика
 
 std::vector<glm::vec2> makeThickLine(
     const std::vector<glm::vec2>& points,
@@ -71,7 +69,7 @@ double r(std::vector<double> x){
 }
 
 double func1(std::vector<double> x){
-    return 1.0;
+    return 1;
 }
 
 double func2(std::vector<double> x){
@@ -93,8 +91,8 @@ std::vector<double> embedding(std::vector<double> x_coo){
         }
     }
 
-    x_dec[0] = x_coo[0] * cosh(x_coo[1]);
-    x_dec[1] = x_coo[0] * sinh(x_coo[1]);
+    //x_dec[0] = x_coo[1] * cos(x_coo[0]);
+    //x_dec[1] = x_coo[1] * sin(x_coo[0]);
 
     return x_dec;
 }
@@ -112,14 +110,13 @@ std::vector<double> force(std::vector<double> x){
 
 int main(){
     std::vector<std::function<double(const std::vector<double>&)>> funcs = {func1, func2};
-    Metric* metric = new Metric(funcs);
-    Manifold* manifold = new Manifold(metric);
+    Manifold* manifold = new Manifold(new Metric(funcs));
     MetricGrid* grid = new MetricGrid(manifold);
 
-    double time = 15.f;
-    double dx = 0.05f;
+    double time = 20.f;
+    double dx = 0.005f;
 
-    std::vector<Curve> geodesicCurves = grid->computePoints({8,8}, {1.f, 1.f}, embedding, time, dx, 4, {0,0});
+    std::vector<Curve> geodesicCurves = grid->computePoints({2,2}, {1.f, 1.f}, embedding, time, dx, 4, {0,0}, force);
 
     std::vector<std::vector<glm::vec2>> geodesicCurves_glm;
     geodesicCurves_glm.reserve(geodesicCurves.size());
@@ -226,7 +223,6 @@ int main(){
 
     //-----------
 
-    delete metric;
     delete manifold;
     return 0;
 }

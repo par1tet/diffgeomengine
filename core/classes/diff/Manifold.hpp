@@ -1,3 +1,5 @@
+#pragma once
+
 #include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
@@ -6,15 +8,12 @@
 class Manifold {
 public:
     Manifold(Metric* metric);
+    ~Manifold();
 
-    void showmetric();
     Metric* getMetric();
-    
-    void normalizeVelocity(
-        const std::vector<double>& x,
-        std::vector<double>& v);
-        
+    State normalizeVelocity(State state);
     Geodesic* getGeodesic();
+    int getDimension();
     
 private:
     Metric* metric;

@@ -1,4 +1,7 @@
+#pragma once
+
 #include<functional>
 #include<vector>
+#include<core/utility/types.hpp>
 
-std::vector<double> computeRK4(double time, std::function<std::vector<double>(double, std::vector<double>)> func, const std::vector<double>& initCondition, double dx);
+State computeRK4(double time, std::function<State(double, State)> func, const State& initState, double dx);

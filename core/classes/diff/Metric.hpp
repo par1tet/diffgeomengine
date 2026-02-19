@@ -1,7 +1,9 @@
+#pragma once
+
 #include<vector>
 #include<functional>
 #include<string>
-typedef std::vector<std::vector<std::function<double(const std::vector<double>&)>>> Components;
+#include<core/utility/types.hpp>
 
 std::vector<double> zero(std::vector<double> x);
 
@@ -15,7 +17,7 @@ public:
     int getSize();
     std::vector<std::vector<double>> getMatrixAtPoint(std::vector<double> point);
     bool getIsDiagonal();
-    double getInvariant(std::vector<double> state);
+    double getInvariant(State state);
 
 private:
     Components metricComponents;

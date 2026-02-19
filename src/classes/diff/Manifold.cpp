@@ -9,37 +9,44 @@ Manifold::Manifold(Metric* metric){
     this->geodesic = new Geodesic(new ChristoffelSymbols(this->metric));
 };
 
-void Manifold::showmetric(){
-    std::cout << "hii" << std::endl;
+Manifold::~Manifold(){
+    delete this->metric;
+    delete this->geodesic;
 }
 
 Metric* Manifold::getMetric(){
     return this->metric;
 }
 
-void Manifold::normalizeVelocity(
-    const std::vector<double>& x,
-    std::vector<double>& v)
-{
-    int N = this->metric->getSize();
+State Manifold::normalizeVelocity(State state){
+    State newState(state);
 
-    auto g = this->metric->getMatrixAtPoint(x);
+    int N = this->getDimension();
+    auto g = this->metric->getMatrixAtPoint(newState.x0);
 
     double length2 = 0.0;
 
-    for(int i = 0; i < N; ++i)
+    for(int i = 0; i < N; ++i){
         for(int j = 0; j < N; ++j)
-            length2 += g[i][j] * v[i] * v[j];
+            length2 += g[i][j] * newState.v0[i] * newState.v0[j];
+    }
 
     if(std::abs(length2) < 1e-12)
         throw std::runtime_error("Zero velocity norm");
 
     double invLength = 1.0 / std::sqrt(length2);
 
-    for(int i = 0; i < N; ++i)
-        v[i] *= invLength;
+    for(int i = 0; i < N; ++i){
+        newState.v0[i] *= invLength;
+    }
+
+    return newState;
 }
 
 Geodesic* Manifold::getGeodesic(){
     return this->geodesic;
+}
+
+int Manifold::getDimension(){
+    return this->metric->getSize();
 }

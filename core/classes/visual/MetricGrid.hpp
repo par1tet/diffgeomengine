@@ -1,3 +1,5 @@
+#pragma once
+
 #include<core/classes/diff/Manifold.hpp>
 
 class MetricGrid{

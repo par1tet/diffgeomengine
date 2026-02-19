@@ -1,23 +1,23 @@
-#include<core/classes/diff/ChristoffelSymbols.hpp>
+#pragma once
 
-struct Curve {
-    std::vector<std::vector<double>> points;
-};
+#include<core/classes/diff/ChristoffelSymbols.hpp>
+#include<core/utility/types.hpp>
 
 class Geodesic{
 public:
     Geodesic(ChristoffelSymbols* christo);
+    ~Geodesic();
 
-    std::vector<double> computeGeodesicNextState(double time, std::vector<double>& initConditions, double dx=0.02,
+    State computeGeodesicNextState(double time, State& initState, double dx=0.02,
          std::function<std::vector<double>(std::vector<double>)> force = zero);
 
-    Curve computeGeodesic(double T, std::vector<double>& initConditions, double dx = 0.02,
+    Curve computeGeodesic(double T, State& initState, double dx = 0.02,
          std::function<std::vector<double>(std::vector<double>)> force = zero);
 
 
 private:
-    std::vector<double> geodesicRhs(double time, std::vector<double>& initConditions,
+    State geodesicRhs(double time, State& initState,
          std::function<std::vector<double>(std::vector<double>)> force = zero);
 
-    ChristoffelSymbols* currentChristoffelSymbols;
+    ChristoffelSymbols* christoffelSymbols;
 };
