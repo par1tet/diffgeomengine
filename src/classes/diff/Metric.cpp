@@ -28,10 +28,18 @@ std::vector<double> zero(std::vector<double> x){
     return std::vector<double>(x.size(),0);
 }
 
-Metric::Metric(const Components& components): metricComponents(components) {};
+Metric::Metric(const Components& components): metricComponents(components) {
+    if(metricComponents.size() != metricComponents[0].size()){
+        throw std::runtime_error("Matrix of components must be squared");
+    }
+};
 
 Metric::Metric(const std::vector<std::function<double(const std::vector<double>&)>>& components) {
     size_t n = components.size();
+
+    if(n < 1){
+        throw std::runtime_error("Count of components less then one");
+    }
     
     metricComponents.resize(n);
     

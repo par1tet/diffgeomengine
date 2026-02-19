@@ -2,6 +2,7 @@
 #include<core/classes/compute/rk4_realize.hpp>
 #include<iostream>
 #include<cmath>
+#include<core/utility/functions.hpp>
 
 Geodesic::Geodesic(ChristoffelSymbols* christo): christoffelSymbols(christo){};
 
@@ -26,7 +27,11 @@ State Geodesic::geodesicRhs(double time, State& initState,
                 acc += this->christoffelSymbols->computeChristoffelSybmbolsAtPoint(initState.x0, k, i, j) * initState.v0[i] * initState.v0[j];
             }
         }
-        acc += force(initState.x0)[k];
+        std::vector<double> forceVector = force(initState.x0);
+        if(forceVector.size() != initState.dimension){
+            throw std::runtime_error("Force vector dimension is not equal initState dimension");
+        }
+        acc += forceVector[k];
 
         dInit.v0[k] = -acc;
     }
@@ -36,6 +41,8 @@ State Geodesic::geodesicRhs(double time, State& initState,
 
 State Geodesic::computeGeodesicNextState(double time, State& initState, double dx,
          std::function<std::vector<double>(std::vector<double>)> force){
+    checkCorrectState(initState);
+
     return computeRK4(time,
         [this, force](double t, State state) {
             return this->geodesicRhs(t, state, force);
@@ -44,6 +51,7 @@ State Geodesic::computeGeodesicNextState(double time, State& initState, double d
 
 Curve Geodesic::computeGeodesic(double T, State& initState, double dx,
          std::function<std::vector<double>(std::vector<double>)> force){
+    checkCorrectState(initState);
     Curve geodesic;
     State newInitState = initState;
 
