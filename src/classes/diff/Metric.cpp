@@ -27,6 +27,7 @@ Metric::Metric(const std::vector<std::function<double(const std::vector<double>&
             }
         }
     }
+    this->isDiagonal = true;
 }
 
 std::function<double(const std::vector<double>&)> Metric::getComponent(int i, int j) {
@@ -66,4 +67,8 @@ std::vector<std::vector<double>> Metric::getMatrixAtPoint(std::vector<double> po
     }
 
     return matrix;
+}
+
+bool Metric::getIsDiagonal(){
+    return this->isDiagonal;
 }

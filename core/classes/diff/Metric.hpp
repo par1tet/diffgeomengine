@@ -12,6 +12,8 @@ public:
     double getReverseInPoint(std::vector<double> point, int i, int j);
     int getSize();
     std::vector<std::vector<double>> getMatrixAtPoint(std::vector<double> point);
+    bool getIsDiagonal();
 private:
     Components metricComponents;
+    bool isDiagonal = false;
 };

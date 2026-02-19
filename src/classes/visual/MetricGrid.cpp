@@ -15,7 +15,7 @@ MetricGrid::computePoints(
     int directionDensity)
 {
     int N = this->manifold->getMetric()->getSize();
-
+    
     std::vector<Curve> allCurves;
 
     // ---- общее число стартовых точек ----
@@ -35,8 +35,9 @@ MetricGrid::computePoints(
             int idx = tmp % size[i];
             tmp /= size[i];
 
-            double center = (size[i])/2;
-            x0[i] = (idx - center) * gaps[i];
+            //double center = (size[i])/2;
+            double center = 0;
+            x0[i] = (idx - center) * gaps[i] + 0.01;
 
             // const double EPS = 1e-4;
             // if (std::abs(x0[i]) < EPS)
@@ -58,7 +59,7 @@ MetricGrid::computePoints(
                 double angle = 2.0 * M_PI * d / directionDensity;
 
                 v0[0] = std::cos(angle);
-                v0[1] = std::sin(angle);
+                v0[1] = std::sin(angle) / x0[0];
             }
 
             manifold->normalizeVelocity(x0, v0);

@@ -152,14 +152,7 @@ double func1(std::vector<double> x){
 }
 
 double func2(std::vector<double> x){
-    return 1.0;
-}
-
-double lambda = 1;
-
-double func3(std::vector<double> x){
-    double rx = r(x);
-    return -(lambda/rx*rx);
+    return std::sinh(x[0]) * std::sinh(x[0]);
 }
 
 std::vector<double> embedding(std::vector<double> x_coo){
@@ -177,19 +170,22 @@ std::vector<double> embedding(std::vector<double> x_coo){
         }
     }
 
+    x_dec[0] = x_coo[0] * cos(x_coo[1]);
+    x_dec[1] = x_coo[0] * sin(x_coo[1]);
+
     return x_dec;
 }
 
 int main(){
-    std::vector<std::vector<std::function<double(const std::vector<double>&)>>> funcs = {{func1, func3}, {func3, func2}};
+    std::vector<std::function<double(const std::vector<double>&)>> funcs = {func1, func2};
     Metric* metric = new Metric(funcs);
     Manifold* manifold = new Manifold(metric);
     MetricGrid* grid = new MetricGrid(manifold);
 
-    double time = 8.f;
-    double dx = 0.005f;
+    double time = 10.f;
+    double dx = 0.05f;
 
-    std::vector<Curve> geodesicCurves = grid->computePoints({7,7}, {1.2f, 1.2f}, embedding, time, dx, 4);
+    std::vector<Curve> geodesicCurves = grid->computePoints({7,6}, {1.2f, 10 * M_PI/6}, embedding, time, dx, 4);
 
     std::vector<std::vector<glm::vec2>> geodesicCurves_glm;
     geodesicCurves_glm.reserve(geodesicCurves.size());
@@ -216,6 +212,8 @@ int main(){
             thick.end()
         );
     }
+
+    
 
     // OpenGL
     

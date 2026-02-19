@@ -14,10 +14,25 @@ double ChristoffelSymbols::computeChristoffelSybmbolsAtPoint(std::vector<double>
     // Γᵏᵢⱼ = ½ gᵏˡ (∂ᵢ gⱼₗ + ∂ⱼ gᵢₗ - ∂ₗ gᵢⱼ)
 
     double result = 0;
-
-    for(int l = 0;l != metric.getSize();l++){
-        result += metric.getReverseInPoint(point, k, l) * (diffBy(metric.getComponent(j,l), point, i) + diffBy(metric.getComponent(i,l), point, j) - diffBy(metric.getComponent(i,j), point, l));
+    
+    if(metric.getIsDiagonal()){
+        if((k == i) && (i == j)){
+            result = diffBy(metric.getComponent(i, k), point, k) / metric.getComponent(i, k)(point);
+        }else if(((k == i) && (i != j))){
+            result = diffBy(metric.getComponent(i, k), point, j) / metric.getComponent(i, k)(point);
+        }else if(((k == j) && (i != j))){
+            result = diffBy(metric.getComponent(j, k), point, i) / metric.getComponent(j, k)(point);
+        }else if(((k != i) && (i == j))){
+            result = -diffBy(metric.getComponent(j, i), point, k) / metric.getComponent(k, k)(point);
+        }else{
+            result = 0;
+        }
+    }else{
+        for(int l = 0;l != metric.getSize();l++){
+            result += metric.getReverseInPoint(point, k, l) * (diffBy(metric.getComponent(j,l), point, i) + diffBy(metric.getComponent(i,l), point, j) - diffBy(metric.getComponent(i,j), point, l));
+        }
     }
+    
 
     return result/2;
 }
