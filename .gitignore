@@ -5,3 +5,4 @@ glad
 ./libs/glad
 libs
 /libs
+src/main.cpp
