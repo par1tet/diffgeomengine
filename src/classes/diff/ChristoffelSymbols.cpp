@@ -7,8 +7,6 @@ ChristoffelSymbols::ChristoffelSymbols(Metric* metric): currentMetric(metric){
 
 double ChristoffelSymbols::computeChristoffelSybmbolsAtPoint(std::vector<double> point, int k, int i, int j){
     int n = this->currentMetric->getSize();
-
-
     auto& metric = *(this->currentMetric);
 
     // Γᵏᵢⱼ = ½ gᵏˡ (∂ᵢ gⱼₗ + ∂ⱼ gᵢₗ - ∂ₗ gᵢⱼ)

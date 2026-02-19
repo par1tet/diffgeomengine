@@ -14,6 +14,7 @@ add_executable(${PROJECT_NAME}
         src/classes/compute/invert_matrix.cpp
         src/classes/diff/Geodesic.cpp
         src/classes/visual/MetricGrid.cpp
+        src/utility/createShaderProgram.cpp
 )
 
 add_library(glad STATIC libs/glad/src/glad.c)

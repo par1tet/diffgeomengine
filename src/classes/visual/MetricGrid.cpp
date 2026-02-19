@@ -12,32 +12,30 @@ MetricGrid::computePoints(
     std::function<std::vector<double>(const std::vector<double>&)> embedding,
     double T,
     double dt,
-    int directionDensity)
+    int directionDensity,
+    std::vector<double> origin)
 {
     int N = this->manifold->getMetric()->getSize();
     
     std::vector<Curve> allCurves;
 
-    // ---- общее число стартовых точек ----
     int totalPoints = 1;
-    for(int i = 0; i < N; ++i)
+    for(int i = 0; i < N; ++i){
         totalPoints *= size[i];
+    }
 
-    // ---- перебор стартовых точек ----
-    for(int linear = 0; linear < totalPoints; ++linear)
+    for(int i = 0; i < totalPoints; ++i)
     {
         std::vector<double> x0(N);
-        int tmp = linear;
+        int tmp = i;
 
-        // multi-index раскодировка
         for(int i = N - 1; i >= 0; --i)
         {
             int idx = tmp % size[i];
             tmp /= size[i];
 
-            //double center = (size[i])/2;
             double center = 0;
-            x0[i] = (idx - center) * gaps[i] + 0.01;
+            x0[i] = (idx - center + 1e-4) * gaps[i];
 
             // const double EPS = 1e-4;
             // if (std::abs(x0[i]) < EPS)
@@ -45,10 +43,6 @@ MetricGrid::computePoints(
 
             // if(x0[i] > M_PI - EPS) x0[i] = M_PI - EPS;
         }
-
-        std::cout << "x0:" << x0[0] << "\t| x1: " << x0[1] << std::endl;
-
-        // ---- направления ----
 
         for(int d = 0; d < directionDensity; ++d)
         {
@@ -67,7 +61,6 @@ MetricGrid::computePoints(
             std::vector<double> initConditions = x0;
             initConditions.insert(initConditions.end(), v0.begin(), v0.end());
 
-            std::cout << "-----" << std::endl;
             Curve geodesic = manifold->getGeodesic()->computeGeodesic(T, initConditions, dt);
 
             Curve embeddedCurve;
@@ -76,6 +69,9 @@ MetricGrid::computePoints(
             for(const auto& point : geodesic.points)
             {
                 auto embedded = embedding(point);
+                for(int i = 0;i != origin.size();i++){
+                    embedded[i] += origin[i];
+                }
                 embeddedCurve.points.push_back(embedded);
             }
 

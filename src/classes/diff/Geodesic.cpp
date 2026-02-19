@@ -19,9 +19,6 @@ std::vector<double> Geodesic::geodesicRhs(double time, std::vector<double>& init
     for(int i = 0;i != n;i++){
         dInit[i] = v[i];
     }
-    std::cout << "Gamma^r_{φφ} = "
-                << this->currentChristoffelSymbols->computeChristoffelSybmbolsAtPoint({2.0, 0.5}, 0, 1, 1)
-                << std::endl;
 
     for(int k = 0;k != n;k++){
         double acc = 0.f;

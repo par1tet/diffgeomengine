@@ -72,3 +72,22 @@ std::vector<std::vector<double>> Metric::getMatrixAtPoint(std::vector<double> po
 bool Metric::getIsDiagonal(){
     return this->isDiagonal;
 }
+
+double Metric::getInvariant(std::vector<double> state){
+    int n = this->getSize();
+    double acc = 0;
+    std::vector<double> x(n);
+
+    for(int k = 0;k != n;k++){
+        x[k] = state[k];
+    }
+
+
+    for(int i = 0;i != n;i++){
+        for(int j = 0;j != n;j++){
+            acc += this->getComponent(i,j)(x) * state[n + i] * state[n + j];
+        }
+    }
+
+    return acc;
+}

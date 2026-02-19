@@ -9,7 +9,8 @@ public:
         std::function<std::vector<double>(const std::vector<double>&)> embedding,
         double T,
         double dt,
-        int directionDensity);
+        int directionDensity,
+        std::vector<double> origin = {});
 private:
     Manifold* manifold;
 };

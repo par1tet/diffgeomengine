@@ -3,12 +3,11 @@
 #include<core/classes/compute/partical_differentiation.hpp>
 #include<cmath>
 #include<libs/glad/include/glad/glad.h>
+#include<core/utility/createShaderProgram.hpp>
 #include<GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <fstream>
-#include <sstream>
 #include <string>
 
 // TODO: 1. Доделать класс многообразия
@@ -17,81 +16,6 @@
 // 4. Рефактор кода, и сделать номральную архитектуру
 // 5. Сделать произвольный клиппинг, что бы работала произвольная метрика
 
-std::string readFile(const std::string& path)
-{
-    std::ifstream file(path);
-    std::stringstream buffer;
-    buffer << file.rdbuf();
-    return buffer.str();
-}
-
-GLuint compileShader(GLenum type, const std::string& source)
-{
-    GLuint shader = glCreateShader(type);
-    const char* src = source.c_str();
-    glShaderSource(shader, 1, &src, nullptr);
-    glCompileShader(shader);
-
-    int success;
-    char infoLog[512];
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-    if(!success)
-    {
-        glGetShaderInfoLog(shader, 512, nullptr, infoLog);
-        std::cout << "Shader compilation error:\n" << infoLog << std::endl;
-    }
-
-    return shader;
-}
-
-GLuint createShaderProgram(const std::string& vertexPath,
-                           const std::string& fragmentPath)
-{
-    std::string vertexCode = readFile(vertexPath);
-    std::string fragmentCode = readFile(fragmentPath);
-
-    GLuint vertexShader = compileShader(GL_VERTEX_SHADER, vertexCode);
-    GLuint fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentCode);
-
-    GLuint program = glCreateProgram();
-    glAttachShader(program, vertexShader);
-    glAttachShader(program, fragmentShader);
-    glLinkProgram(program);
-
-    int success;
-    char infoLog[512];
-    glGetProgramiv(program, GL_LINK_STATUS, &success);
-    if(!success)
-    {
-        glGetProgramInfoLog(program, 512, nullptr, infoLog);
-        std::cout << "Program linking error:\n" << infoLog << std::endl;
-    }
-
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-
-    return program;
-}
-
-
-double getInv(Metric* metric, std::vector<double> state){
-    int n = metric->getSize();
-    double acc = 0;
-    std::vector<double> x(n);
-
-    for(int k = 0;k != n;k++){
-        x[k] = state[k];
-    }
-
-
-    for(int i = 0;i != n;i++){
-        for(int j = 0;j != n;j++){
-            acc += metric->getComponent(i,j)(x) * state[n + i] * state[n + j];
-        }
-    }
-
-    return acc;
-}
 std::vector<glm::vec2> makeThickLine(
     const std::vector<glm::vec2>& points,
     float width)
@@ -152,7 +76,7 @@ double func1(std::vector<double> x){
 }
 
 double func2(std::vector<double> x){
-    return std::sinh(x[0]) * std::sinh(x[0]);
+    return sin(x[0])*sin(x[0]);
 }
 
 std::vector<double> embedding(std::vector<double> x_coo){
@@ -182,10 +106,10 @@ int main(){
     Manifold* manifold = new Manifold(metric);
     MetricGrid* grid = new MetricGrid(manifold);
 
-    double time = 10.f;
+    double time = 7.f;
     double dx = 0.05f;
 
-    std::vector<Curve> geodesicCurves = grid->computePoints({7,6}, {1.2f, 10 * M_PI/6}, embedding, time, dx, 4);
+    std::vector<Curve> geodesicCurves = grid->computePoints({7,6}, {1.2f, 10 * M_PI/6}, embedding, time, dx, 4, {1,1});
 
     std::vector<std::vector<glm::vec2>> geodesicCurves_glm;
     geodesicCurves_glm.reserve(geodesicCurves.size());
@@ -212,9 +136,6 @@ int main(){
             thick.end()
         );
     }
-
-    
-
     // OpenGL
     
     glfwInit();
@@ -236,6 +157,13 @@ int main(){
         return -1;
     }
 
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // Включаем сглаживание точек (опционально)
+    glEnable(GL_POINT_SMOOTH);
+    glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
+
     glm::mat4 projection = 1.f * glm::ortho(-6.f, 6.f,
                                   -6.f, 6.f);
 
@@ -251,7 +179,6 @@ int main(){
              thickVertices.data(),
              GL_STATIC_DRAW);
 
-
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE,
                         sizeof(glm::vec2), (void*)0);
     glEnableVertexAttribArray(0);
@@ -262,6 +189,7 @@ int main(){
         "/home/par1tet/reps/diffgeomengine/src/shaders/vertex_shader.glsl",
         "/home/par1tet/reps/diffgeomengine/src/shaders/fragment_shader.glsl"
     );
+
     while(!glfwWindowShouldClose(window))
     {
         glfwPollEvents();
@@ -273,7 +201,7 @@ int main(){
         GLuint projLoc  = glGetUniformLocation(shaderProgram, "projection");
 
         glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-        glUniform3f(colorLoc, 1.0f, 0.0f, 0.0f);
+        glUniform3f(colorLoc, 1.0f, 1.0f, 1.0f);
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferData(GL_ARRAY_BUFFER,

@@ -13,6 +13,8 @@ public:
     int getSize();
     std::vector<std::vector<double>> getMatrixAtPoint(std::vector<double> point);
     bool getIsDiagonal();
+    double getInvariant(std::vector<double> state);
+
 private:
     Components metricComponents;
     bool isDiagonal = false;
