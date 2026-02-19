@@ -3,6 +3,8 @@
 #include<string>
 typedef std::vector<std::vector<std::function<double(const std::vector<double>&)>>> Components;
 
+std::vector<double> zero(std::vector<double> x);
+
 class Metric{
 public:
     Metric(const Components&);

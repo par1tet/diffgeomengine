@@ -11,7 +11,6 @@
 #include <string>
 
 // TODO: 1. Доделать класс многообразия
-// 2. Вынести функции отрисовки
 // 3. Добавить силу на многообразии
 // 4. Рефактор кода, и сделать номральную архитектуру
 // 5. Сделать произвольный клиппинг, что бы работала произвольная метрика
@@ -66,7 +65,7 @@ double omega(double x, double y){
 double r(std::vector<double> x){
     double acc = 0;
     for(double c : x){
-        acc+=c;
+        acc+=c*c;
     }
     return acc;
 }
@@ -76,7 +75,7 @@ double func1(std::vector<double> x){
 }
 
 double func2(std::vector<double> x){
-    return sin(x[0])*sin(x[0]);
+    return 1;
 }
 
 std::vector<double> embedding(std::vector<double> x_coo){
@@ -94,10 +93,21 @@ std::vector<double> embedding(std::vector<double> x_coo){
         }
     }
 
-    x_dec[0] = x_coo[0] * cos(x_coo[1]);
-    x_dec[1] = x_coo[0] * sin(x_coo[1]);
+    x_dec[0] = x_coo[0] * cosh(x_coo[1]);
+    x_dec[1] = x_coo[0] * sinh(x_coo[1]);
 
     return x_dec;
+}
+
+std::vector<double> force(std::vector<double> x){
+    double rx = sqrt(r(x));
+    std::vector<double> forceVector(x.size(),0);
+
+    for(int i = 0;i != x.size();i++){
+        forceVector[i] = x[i]/(rx*rx*rx);
+    }
+
+    return forceVector;
 }
 
 int main(){
@@ -106,10 +116,10 @@ int main(){
     Manifold* manifold = new Manifold(metric);
     MetricGrid* grid = new MetricGrid(manifold);
 
-    double time = 7.f;
+    double time = 15.f;
     double dx = 0.05f;
 
-    std::vector<Curve> geodesicCurves = grid->computePoints({7,6}, {1.2f, 10 * M_PI/6}, embedding, time, dx, 4, {1,1});
+    std::vector<Curve> geodesicCurves = grid->computePoints({8,8}, {1.f, 1.f}, embedding, time, dx, 4, {0,0});
 
     std::vector<std::vector<glm::vec2>> geodesicCurves_glm;
     geodesicCurves_glm.reserve(geodesicCurves.size());
@@ -160,7 +170,6 @@ int main(){
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // Включаем сглаживание точек (опционально)
     glEnable(GL_POINT_SMOOTH);
     glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 

@@ -13,8 +13,8 @@ MetricGrid::computePoints(
     double T,
     double dt,
     int directionDensity,
-    std::vector<double> origin)
-{
+    std::vector<double> origin,
+    std::function<std::vector<double>(std::vector<double>)> force){
     int N = this->manifold->getMetric()->getSize();
     
     std::vector<Curve> allCurves;
@@ -34,7 +34,7 @@ MetricGrid::computePoints(
             int idx = tmp % size[i];
             tmp /= size[i];
 
-            double center = 0;
+            double center = size[i]/2;
             x0[i] = (idx - center + 1e-4) * gaps[i];
 
             // const double EPS = 1e-4;
@@ -61,7 +61,7 @@ MetricGrid::computePoints(
             std::vector<double> initConditions = x0;
             initConditions.insert(initConditions.end(), v0.begin(), v0.end());
 
-            Curve geodesic = manifold->getGeodesic()->computeGeodesic(T, initConditions, dt);
+            Curve geodesic = manifold->getGeodesic()->computeGeodesic(T, initConditions, dt, force);
 
             Curve embeddedCurve;
             embeddedCurve.points.reserve(geodesic.points.size());

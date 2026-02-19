@@ -10,7 +10,9 @@ public:
         double T,
         double dt,
         int directionDensity,
-        std::vector<double> origin = {});
+        std::vector<double> origin = {},
+        std::function<std::vector<double>(std::vector<double>)> force = zero
+    );
 private:
     Manifold* manifold;
 };

@@ -9,6 +9,10 @@ double funcZero(std::vector<double> x){
     return 0;
 }
 
+std::vector<double> zero(std::vector<double> x){
+    return std::vector<double>(x.size(),0);
+}
+
 Metric::Metric(const Components& components): metricComponents(components) {};
 
 Metric::Metric(const std::vector<std::function<double(const std::vector<double>&)>>& components) {
