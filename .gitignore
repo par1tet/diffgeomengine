@@ -6,3 +6,4 @@ glad
 libs
 /libs
 src/main.cpp
+.vscode
