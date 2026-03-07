@@ -1,8 +1,8 @@
-#include<core/diffgeomeng/classes/diff/Metric.hpp>
+#include<diffgeomeng/classes/diff/Metric.hpp>
 #include <stdexcept>
 #include <cmath>
 #include <algorithm>
-#include<core/diffgeomeng/classes/compute/invert_matrix.hpp>
+#include<diffgeomeng/classes/compute/invert_matrix.hpp>
 #include <iostream>
 
 double funcZero(std::vector<double> x){

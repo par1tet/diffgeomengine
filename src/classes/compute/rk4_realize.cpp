@@ -1,6 +1,6 @@
-#include<core/diffgeomeng/classes/compute/rk4_realize.hpp>
+#include<diffgeomeng/classes/compute/rk4_realize.hpp>
 #include<exception>
-#include<core/diffgeomeng/utility/functions.hpp>
+#include<diffgeomeng/utility/functions.hpp>
 
 State computeRK4(double time, std::function<State(double, State)> func,const State& initState, double dx){
     checkCorrectState(initState);

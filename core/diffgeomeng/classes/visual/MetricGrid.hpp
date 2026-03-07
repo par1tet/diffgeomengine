@@ -1,6 +1,6 @@
 #pragma once
 
-#include<core/diffgeomeng/classes/diff/Manifold.hpp>
+#include<diffgeomeng/classes/diff/Manifold.hpp>
 
 class MetricGrid{
 public:

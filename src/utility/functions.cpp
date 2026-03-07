@@ -1,4 +1,4 @@
-#include<core/diffgeomeng/utility/functions.hpp>
+#include<diffgeomeng/utility/functions.hpp>
 
 void checkCorrectState(State state){
     if((state.dimension != state.x0.size()) || (state.dimension != state.v0.size())){

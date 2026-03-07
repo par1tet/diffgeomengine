@@ -1,4 +1,4 @@
-#include<core/diffgeomeng/classes/visual/MetricGrid.hpp>
+#include<diffgeomeng/classes/visual/MetricGrid.hpp>
 #include <random>
 #include<iostream>
 #include<exception>

@@ -1,7 +1,7 @@
 #pragma once
 
-#include<core/diffgeomeng/classes/diff/ChristoffelSymbols.hpp>
-#include<core/diffgeomeng/utility/types.hpp>
+#include<diffgeomeng/classes/diff/ChristoffelSymbols.hpp>
+#include<diffgeomeng/utility/types.hpp>
 
 class Geodesic{
 public:

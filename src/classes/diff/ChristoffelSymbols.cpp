@@ -1,6 +1,6 @@
-#include<core/diffgeomeng/classes/diff/ChristoffelSymbols.hpp>
+#include<diffgeomeng/classes/diff/ChristoffelSymbols.hpp>
 #include <stdexcept>
-#include <core/diffgeomeng/classes/compute/partical_differentiation.hpp>
+#include <diffgeomeng/classes/compute/partical_differentiation.hpp>
 
 ChristoffelSymbols::ChristoffelSymbols(Metric* metric): currentMetric(metric){
 };

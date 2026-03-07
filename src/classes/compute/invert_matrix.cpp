@@ -1,4 +1,4 @@
-#include<core/diffgeomeng/classes/compute/invert_matrix.hpp>
+#include<diffgeomeng/classes/compute/invert_matrix.hpp>
 #include<iostream>
 
 std::vector<std::vector<double>> invertComponentMatrix(
