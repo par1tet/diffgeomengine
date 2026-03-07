@@ -82,7 +82,7 @@ MetricGrid::computePoints(
 
             for(const auto& point : geodesic.points)
             {
-                auto embedded = embedding(point);
+                auto embedded = this->manifold->doEmbedding(embedding(point));
                 for(int i = 0;i != origin.size();i++){
                     embedded[i] += origin[i];
                 }

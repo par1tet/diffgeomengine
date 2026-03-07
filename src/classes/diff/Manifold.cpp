@@ -7,6 +7,13 @@
 Manifold::Manifold(Metric* metric){
     this->metric = metric;
     this->geodesic = new Geodesic(new ChristoffelSymbols(this->metric));
+    this->embedding = zero;
+};
+
+Manifold::Manifold(Metric* metric, std::function<std::vector<double>(std::vector<double>)> embedding){
+    this->metric = metric;
+    this->geodesic = new Geodesic(new ChristoffelSymbols(this->metric));
+    this->embedding = embedding;
 };
 
 Manifold::~Manifold(){
@@ -49,4 +56,9 @@ Geodesic* Manifold::getGeodesic(){
 
 int Manifold::getDimension(){
     return this->metric->getSize();
+}
+
+
+std::vector<double> Manifold::doEmbedding(std::vector<double> x){
+    return this->embedding(x);
 }
