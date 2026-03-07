@@ -21,7 +21,8 @@ find_package(glm REQUIRED)
 target_link_libraries(diffgeomeng PRIVATE glm::glm)
 
 target_include_directories(diffgeomeng PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(diffgemeng
+
+target_include_directories(diffgeomeng
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
