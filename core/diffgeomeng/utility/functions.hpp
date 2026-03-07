@@ -1,6 +1,6 @@
 #pragma once
 
 #include<stdexcept>
-#include<core/utility/types.hpp>
+#include<core/diffgeomeng/utility/types.hpp>
 
 void checkCorrectState(State state);
