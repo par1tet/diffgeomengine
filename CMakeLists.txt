@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.10)
-project(diffgemeng)
+project(diffgeomeng)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_library(diffgemeng
+add_library(diffgeomeng
         src/classes/diff/Manifold.cpp
         src/classes/diff/Metric.cpp
         src/classes/compute/rk4_realize.cpp
@@ -18,6 +18,6 @@ add_library(diffgemeng
 
 find_package(glm REQUIRED)
 
-target_link_libraries(diffgemeng PRIVATE glm::glm)
+target_link_libraries(diffgeomeng PRIVATE glm::glm)
 
-target_include_directories(diffgemeng PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(diffgeomeng PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
