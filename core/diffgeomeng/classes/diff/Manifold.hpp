@@ -3,7 +3,7 @@
 #include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
-#include<core/classes/diff/Geodesic.hpp>
+#include<core/diffgeomeng/classes/diff/Geodesic.hpp>
 
 class Manifold {
 public:

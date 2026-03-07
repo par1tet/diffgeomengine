@@ -1,6 +1,6 @@
 #pragma once
 
-#include<core/classes/diff/Metric.hpp>
+#include<core/diffgeomeng/classes/diff/Metric.hpp>
 
 class ChristoffelSymbols{
 public:

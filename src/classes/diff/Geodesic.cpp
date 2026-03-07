@@ -1,8 +1,8 @@
-#include<core/classes/diff/Geodesic.hpp>
-#include<core/classes/compute/rk4_realize.hpp>
+#include<core/diffgeomeng/classes/diff/Geodesic.hpp>
+#include<core/diffgeomeng/classes/compute/rk4_realize.hpp>
 #include<iostream>
 #include<cmath>
-#include<core/utility/functions.hpp>
+#include<core/diffgeomeng/utility/functions.hpp>
 
 Geodesic::Geodesic(ChristoffelSymbols* christo): christoffelSymbols(christo){};
 

@@ -1,4 +1,4 @@
-#include<core/classes/compute/partical_differentiation.hpp>
+#include<core/diffgeomeng/classes/compute/partical_differentiation.hpp>
 #include <stdexcept>
 
 double diffBy(std::function<double(const std::vector<double>&)> func, const std::vector<double>& point, int p_index, double dx){

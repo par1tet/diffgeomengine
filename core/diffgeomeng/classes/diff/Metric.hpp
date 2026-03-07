@@ -3,7 +3,7 @@
 #include<vector>
 #include<functional>
 #include<string>
-#include<core/utility/types.hpp>
+#include<core/diffgeomeng/utility/types.hpp>
 
 std::vector<double> zero(std::vector<double> x);
 
