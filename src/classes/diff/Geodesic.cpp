@@ -36,6 +36,12 @@ State Geodesic::geodesicRhs(double time, State& initState,
         dInit.v0[k] = -acc;
     }
 
+    for (int i = 0; i < initState.dimension; i++) {
+        if (std::isnan(dInit.v0[i])) {
+            dInit.v0[i] = 0.0;
+        }
+    }
+
     std::cout << "<|--AFTER COMPUTION RHS--|>" << std::endl;
     if(isLogging){
         std::cout << "<-----Positioin----->" << std::endl;
