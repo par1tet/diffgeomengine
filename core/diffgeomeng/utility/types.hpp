@@ -4,6 +4,7 @@
 #include<functional>
 
 typedef std::vector<std::vector<std::function<double(const std::vector<double>&)>>> Components;
+typedef std::function<std::vector<double>(std::vector<double>)> Embedding;
 
 struct Curve {
     std::vector<std::vector<double>> points;
@@ -24,3 +25,4 @@ struct State {
         v0(v0),
         dimension(d) {}
 };
+

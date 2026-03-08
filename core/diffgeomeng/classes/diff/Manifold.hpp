@@ -8,8 +8,8 @@
 
 class Manifold {
 public:
-    Manifold(Metric* metric);
-    Manifold(Metric* metric, std::function<std::vector<double>(std::vector<double>)>);
+    Manifold(Metric*);
+    Manifold(Metric*, Embedding);
     ~Manifold();
 
     Metric* getMetric();
@@ -21,5 +21,5 @@ public:
 private:
     Metric* metric;
     Geodesic* geodesic;
-    std::function<std::vector<double>(std::vector<double>)> embedding;
+    Embedding embedding;
 };

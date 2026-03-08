@@ -10,7 +10,7 @@ Manifold::Manifold(Metric* metric){
     this->embedding = zero;
 };
 
-Manifold::Manifold(Metric* metric, std::function<std::vector<double>(std::vector<double>)> embedding){
+Manifold::Manifold(Metric* metric, Embedding embedding){
     this->metric = metric;
     this->geodesic = new Geodesic(new ChristoffelSymbols(this->metric));
     this->embedding = embedding;
