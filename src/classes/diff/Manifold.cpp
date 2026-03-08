@@ -25,7 +25,7 @@ Metric* Manifold::getMetric(){
     return this->metric;
 }
 
-State Manifold::normalizeVelocity(State state){
+State Manifold::normalizeVelocity(State state, double normal){
     State newState(state);
 
     int N = this->getDimension();
@@ -41,7 +41,7 @@ State Manifold::normalizeVelocity(State state){
     if(std::abs(length2) < 1e-12)
         throw std::runtime_error("Zero velocity norm");
 
-    double invLength = 1.0 / std::sqrt(length2);
+    double invLength = normal / std::sqrt(length2);
 
     for(int i = 0; i < N; ++i){
         newState.v0[i] *= invLength;

@@ -13,7 +13,7 @@ public:
     ~Manifold();
 
     Metric* getMetric();
-    State normalizeVelocity(State state);
+    State normalizeVelocity(State state, double normal = 1.0);
     Geodesic* getGeodesic();
     int getDimension();
     std::vector<double> doEmbedding(std::vector<double> x);
