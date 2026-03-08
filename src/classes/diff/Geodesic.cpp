@@ -40,8 +40,22 @@ State Geodesic::geodesicRhs(double time, State& initState,
 }
 
 State Geodesic::computeGeodesicNextState(double time, State& initState, double dx,
-         std::function<std::vector<double>(std::vector<double>)> force){
+         std::function<std::vector<double>(std::vector<double>)> force, bool isLogging){
     checkCorrectState(initState);
+    
+    if(isLogging){
+        std::cout << "<-----Positioin----->" << std::endl;
+
+        for(int i = 0;i != initState.dimension;i++){
+            std::cout << "coordinate " << i << " :" << initState.x0[i] << std::endl;
+        }
+
+        std::cout << "<-----Velocity----->" << std::endl;
+
+        for(int i = 0;i != initState.dimension;i++){
+            std::cout << "coordinate " << i << " :" << initState.v0[i] << std::endl;
+        }
+    }
 
     return computeRK4(time,
         [this, force](double t, State state) {
