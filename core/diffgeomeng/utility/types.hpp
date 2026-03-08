@@ -18,4 +18,9 @@ struct State {
         x0(std::vector<double>(d, 0.0)),
         v0(std::vector<double>(d, 0.0)),
         dimension(d) {}
+
+    State(std::vector<double> x0,std::vector<double> v0, int d) : 
+        x0(x0),
+        v0(v0),
+        dimension(d) {}
 };
