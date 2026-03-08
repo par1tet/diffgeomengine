@@ -17,7 +17,7 @@ public:
 
 private:
     State geodesicRhs(double time, State& initState,
-         std::function<std::vector<double>(std::vector<double>)> force = zero);
+         std::function<std::vector<double>(std::vector<double>)> force = zero, bool isLogging = false);
 
     ChristoffelSymbols* christoffelSymbols;
 };
