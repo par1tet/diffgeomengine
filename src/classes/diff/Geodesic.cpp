@@ -37,8 +37,8 @@ State Geodesic::geodesicRhs(double time, State& initState,
     }
 
     for (int i = 0; i < initState.dimension; i++) {
-        if (std::isnan(dInit.v0[i])) {
-            dInit.v0[i] = 0.0;
+        if (std::isnan(dInit.v0[i]) || std::isinf(dInit.v0[i])) {
+            throw std::runtime_error("NaN in geodesic RHS");
         }
     }
 
