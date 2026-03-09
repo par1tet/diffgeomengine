@@ -25,6 +25,19 @@ Metric* Manifold::getMetric(){
     return this->metric;
 }
 
+Geodesic* Manifold::getGeodesic(){
+    return this->geodesic;
+}
+
+int Manifold::getDimension(){
+    return this->metric->getSize();
+}
+
+
+std::vector<double> Manifold::doEmbedding(std::vector<double> x){
+    return this->embedding(x);
+}
+
 State Manifold::normalizeVelocity(State state, double normal){
     State newState(state);
 
@@ -41,24 +54,11 @@ State Manifold::normalizeVelocity(State state, double normal){
     if(std::abs(length2) < 1e-12)
         throw std::runtime_error("Zero velocity norm");
 
-    double invLength = normal / std::sqrt(length2);
+    double scale = std::sqrt(std::abs(normal / length2));
 
     for(int i = 0; i < N; ++i){
-        newState.v0[i] *= invLength;
+        newState.v0[i] *= scale;
     }
 
     return newState;
-}
-
-Geodesic* Manifold::getGeodesic(){
-    return this->geodesic;
-}
-
-int Manifold::getDimension(){
-    return this->metric->getSize();
-}
-
-
-std::vector<double> Manifold::doEmbedding(std::vector<double> x){
-    return this->embedding(x);
 }

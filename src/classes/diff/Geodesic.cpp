@@ -24,7 +24,7 @@ State Geodesic::geodesicRhs(double time, State& initState,
 
         for(int i = 0;i != initState.dimension;i++){
             for(int j = 0;j != initState.dimension; j++){
-                acc += this->christoffelSymbols->computeChristoffelSybmbolsAtPoint(initState.x0, k, i, j) * initState.v0[i] * initState.v0[j];
+                acc -= this->christoffelSymbols->computeChristoffelSybmbolsAtPoint(initState.x0, k, i, j) * initState.v0[i] * initState.v0[j];
             }
         }
         std::vector<double> forceVector = force(initState.x0);
@@ -33,7 +33,7 @@ State Geodesic::geodesicRhs(double time, State& initState,
         }
         acc += forceVector[k];
 
-        dInit.v0[k] = -acc;
+        dInit.v0[k] = acc;
     }
 
     for (int i = 0; i < initState.dimension; i++) {
@@ -103,4 +103,8 @@ Curve Geodesic::computeGeodesic(double T, State& initState, double dx,
     }
 
     return geodesic;
+}
+
+ChristoffelSymbols* Geodesic::getChristoffelSymbols(){
+    return this->christoffelSymbols;
 }

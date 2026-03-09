@@ -14,6 +14,7 @@ public:
     Curve computeGeodesic(double T, State& initState, double dx = 0.02,
          std::function<std::vector<double>(std::vector<double>)> force = zero);
 
+     ChristoffelSymbols* getChristoffelSymbols();
 
 private:
     State geodesicRhs(double time, State& initState,
