@@ -51,6 +51,27 @@ State Manifold::normalizeVelocity(State state, double normal){
             length2 += g[i][j] * newState.v0[i] * newState.v0[j];
     }
 
+    // if null-geodesic
+    if(std::abs(normal) < 1e-14)
+    {
+        double spatial = 0.0;
+
+        for(int i = 1; i < N; ++i){
+            for(int j = 1; j < N; ++j){
+                spatial += g[i][j] * newState.v0[i] * newState.v0[j];
+            }
+        }
+
+        double gtt = g[0][0];
+
+        if(std::abs(gtt) < 1e-14)
+            throw std::runtime_error("Metric g_tt ~ 0");
+
+        newState.v0[0] = std::sqrt(-spatial / gtt);
+
+        return newState;
+    }
+
     if(std::abs(length2) < 1e-12)
         throw std::runtime_error("Zero velocity norm");
 

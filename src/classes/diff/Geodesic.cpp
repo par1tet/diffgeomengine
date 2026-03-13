@@ -14,10 +14,8 @@ Geodesic::~Geodesic(){
 State Geodesic::geodesicRhs(double time, State& initState,
         std::function<std::vector<double>(std::vector<double>)> force, bool isLogging){
     State dInit(initState.dimension);
-
-    for(int i = 0;i != initState.dimension;i++){
-        dInit.x0[i] = initState.v0[i];
-    }
+    
+    dInit.x0 = initState.v0;
 
     for(int k = 0;k != initState.dimension;k++){
         double acc = 0.f;
