@@ -92,7 +92,7 @@ template<size_t N>
 double Metric<N>::getReverseInPoint(Point<N> point, int i, int j){
     checkRightIndices(i, j, this->metricComponents);
 
-    return invertComponentMatrix((this->metricComponents), point)[i][j];
+    return invertComponentMatrix<N>((this->metricComponents), point)[i][j];
 }
 
 template<size_t N>
