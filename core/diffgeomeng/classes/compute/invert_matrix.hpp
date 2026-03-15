@@ -77,7 +77,7 @@ std::array<std::array<double, N>, N> invertComponentMatrix(
     }
     
     for (size_t col = 0; col < N; ++col) {
-        std::array<double, N> y(n);
+        std::array<double, N> y;
         for (size_t i = 0; i < N; ++i) {
             double sum = 0.0;
             for (size_t j = 0; j < i; ++j) {
