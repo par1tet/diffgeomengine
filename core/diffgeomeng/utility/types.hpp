@@ -80,8 +80,8 @@ template <size_t N>
 ComponentsType<N> zeroPointComponents(){
     ComponentsType<N> comps;
     
-    for(int i = 0;i != N;i++){
-        comps[i].fill(zeroPoint);
+    for(size_t i = 0;i < N;++i){
+        comps[i].fill(zeroPoint<N>);
     }
 
     return comps;

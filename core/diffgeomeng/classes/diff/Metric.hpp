@@ -74,7 +74,7 @@ Metric<N>::Metric(const ComponentsRowType<N>& components) {
     for (size_t i = 0; i < N; ++i) {
         for (size_t j = 0; j < N; ++j) {
             if (i == j) {
-                this->metricComponents[i][j] = components[i];
+                this->metricComponents.components[i][j] = components[i];
             }
         }
     }
