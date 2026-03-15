@@ -5,13 +5,6 @@
 
 typedef std::vector<std::vector<std::function<double(const std::vector<double>&)>>> Components;
 
-template <size_t N>
-struct Embedding {
-    std::function<std::array<double, N>(std::array<double, N>)> embFunc;
-
-    Embedding(std::function<std::array<double, N>(std::array<double, N>)> embFunc) : embFunc(embFunc){}
-};
-
 struct Curve {
     std::vector<std::vector<double>> points;
 };
@@ -41,4 +34,11 @@ struct Point {
     }
 
     Point(std::array<double,N> x0) : x(x0){}
+};
+
+template <size_t N>
+struct Embedding {
+    std::function<Point<N>(Point<N>)> embFunc;
+
+    Embedding(std::function<Point<N>(Point<N>)> embFunc) : embFunc(embFunc){}
 };
