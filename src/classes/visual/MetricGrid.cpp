@@ -9,10 +9,10 @@ MetricGrid<N>::MetricGrid(Manifold<N>* manifold): manifold(manifold){
 }
 
 template<size_t N>
-std::vector<Curve> MetricGrid<N>::computePoints(
+std::vector<Curve<N>> MetricGrid<N>::computePoints(
     const std::vector<int>& size,
     const std::vector<double>& gaps,
-    std::function<std::array<double, N>(const std::array<double, N>&)> embedding,
+    Embedding<N> embedding,
     double T,
     double dt,
     int directionDensity,
@@ -32,7 +32,7 @@ std::vector<Curve> MetricGrid<N>::computePoints(
 
     // -------
     
-    std::vector<Curve> allCurves;
+    std::vector<Curve<N>> allCurves;
 
     int totalPoints = 1;
     for(int i = 0; i < N; ++i){
@@ -75,9 +75,9 @@ std::vector<Curve> MetricGrid<N>::computePoints(
 
             initState = manifold->normalizeVelocity(initState);
 
-            Curve geodesic = manifold->getGeodesic()->computeGeodesic(T, initState, dt, force);
+            Curve<N> geodesic = manifold->getGeodesic()->computeGeodesic(T, initState, dt, force);
 
-            Curve embeddedCurve;
+            Curve<N> embeddedCurve;
             embeddedCurve.points.reserve(geodesic.points.size());
 
             for(const auto& point : geodesic.points)

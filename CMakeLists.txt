@@ -14,6 +14,7 @@ add_library(diffgeomeng
         src/classes/diff/Geodesic.cpp
         src/classes/visual/MetricGrid.cpp
         src/utility/functions.cpp
+        src/types.cpp
 )
 
 find_package(glm REQUIRED)

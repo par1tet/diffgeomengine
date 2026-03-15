@@ -3,13 +3,13 @@
 #include<diffgeomeng/classes/diff/Metric.hpp>
 #include<diffgeomeng/utility/types.hpp>
 
+template <size_t N>
 class ChristoffelSymbols{
 public:
-    ChristoffelSymbols(Metric* metric);
+    ChristoffelSymbols(Metric<N>* metric);
 
-    template <size_t N>
     double computeChristoffelSybmbolsAtPoint(Point<N> point, int k, int i, int j);
-    Metric* getMetric();
+    Metric<N>* getMetric();
 private:
-    Metric* currentMetric;
+    Metric<N>* currentMetric;
 };

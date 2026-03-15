@@ -4,16 +4,18 @@
 #include<cmath>
 #include<diffgeomeng/utility/functions.hpp>
 
-Geodesic::Geodesic(ChristoffelSymbols* christo): christoffelSymbols(christo){};
+template<size_t N>
+Geodesic<N>::Geodesic(ChristoffelSymbols<N>* christo): christoffelSymbols(christo){};
 
 
-Geodesic::~Geodesic(){
+template<size_t N>
+Geodesic<N>::~Geodesic(){
     delete this->christoffelSymbols;
 }
 
 
 template<size_t N>
-State<N> Geodesic::geodesicRhs(double time, State<N>& initState,
+State<N> Geodesic<N>::geodesicRhs(double time, State<N>& initState,
         std::function<std::array<double, N>(std::array<double, N>)> force, bool isLogging){
     State dInit(initState.dimension);
     
@@ -61,7 +63,7 @@ State<N> Geodesic::geodesicRhs(double time, State<N>& initState,
 }
 
 template<size_t N>
-State<N> Geodesic::computeGeodesicNextState(double time, State<N>& initState, double dx,
+State<N> Geodesic<N>::computeGeodesicNextState(double time, State<N>& initState, double dx,
          std::function<std::array<double, N>(std::array<double, N>)> force, bool isLogging){
     checkCorrectState<N>(initState);
     
@@ -86,11 +88,11 @@ State<N> Geodesic::computeGeodesicNextState(double time, State<N>& initState, do
 }
 
 template<size_t N>
-Curve Geodesic::computeGeodesic(double T, State<N>& initState, double dx,
+Curve<N> Geodesic<N>::computeGeodesic(double T, State<N>& initState, double dx,
          std::function<std::array<double, N>(std::array<double, N>)> force){
     checkCorrectState(initState);
-    Curve geodesic;
-    State newInitState = initState;
+    Curve<N> geodesic;
+    State<N> newInitState = initState;
 
     for(double time;time <= T;time+=dx){
         //if(newInitState[0] > M_PI - 0.1)
@@ -107,6 +109,7 @@ Curve Geodesic::computeGeodesic(double T, State<N>& initState, double dx,
     return geodesic;
 }
 
-ChristoffelSymbols* Geodesic::getChristoffelSymbols(){
+template<size_t N>
+ChristoffelSymbols<N>* Geodesic<N>::getChristoffelSymbols(){
     return this->christoffelSymbols;
 }

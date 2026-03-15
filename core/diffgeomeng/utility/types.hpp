@@ -3,12 +3,6 @@
 #include<vector>
 #include<functional>
 
-typedef std::vector<std::vector<std::function<double(const std::vector<double>&)>>> Components;
-
-struct Curve {
-    std::vector<std::vector<double>> points;
-};
-
 template <size_t N>
 struct State {
     std::array<double, N> x0;
@@ -37,8 +31,30 @@ struct Point {
 };
 
 template <size_t N>
+Point<N> zeroPoint(Point<N> x);
+
+template <size_t N>
 struct Embedding {
     std::function<Point<N>(Point<N>)> embFunc;
 
     Embedding(std::function<Point<N>(Point<N>)> embFunc) : embFunc(embFunc){}
+};
+
+template <size_t N>
+struct Curve {
+    std::vector<Point<N>> points;
+};
+
+template <size_t N>
+using ComponentsType = std::array<std::array<std::function<double(const std::array<double, N>&)>,N>, N>;
+
+template <size_t N>
+ComponentsType<N> zeroPointComponents();
+
+template <size_t N>
+struct Components {
+    ComponentsType<N> components;
+
+    Components<N>(ComponentsType<N> components): components(components){}
+    Components<N>(): components(zeroPointComponents<N>()){}
 };

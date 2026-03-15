@@ -9,18 +9,18 @@
 template <size_t N>
 class Manifold {
 public:
-    Manifold(Metric*);
-    Manifold(Metric*, Embedding<N>);
+    Manifold(Metric<N>*);
+    Manifold(Metric<N>*, Embedding<N>);
     ~Manifold();
 
-    Metric* getMetric();
+    Metric<N>* getMetric();
     State<N> normalizeVelocity(State<N> state, double normal = 1.0);
-    Geodesic* getGeodesic();
+    Geodesic<N>* getGeodesic();
     int getDimension();
     Point<N> doEmbedding(Point<N> x);
     
 private:
-    Metric* metric;
-    Geodesic* geodesic;
+    Metric<N>* metric;
+    Geodesic<N>* geodesic;
     Embedding<N> embedding;
 };

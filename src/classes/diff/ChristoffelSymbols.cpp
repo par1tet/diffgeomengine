@@ -2,11 +2,12 @@
 #include <stdexcept>
 #include <diffgeomeng/classes/compute/partical_differentiation.hpp>
 
-ChristoffelSymbols::ChristoffelSymbols(Metric* metric): currentMetric(metric){
+template <size_t N>
+ChristoffelSymbols<N>::ChristoffelSymbols(Metric<N>* metric): currentMetric(metric){
 };
 
 template <size_t N>
-double ChristoffelSymbols::computeChristoffelSybmbolsAtPoint(Point<N> point, int k, int i, int j){
+double ChristoffelSymbols<N>::computeChristoffelSybmbolsAtPoint(Point<N> point, int k, int i, int j){
     int n = this->currentMetric->getSize();
     if(n != N){
         throw std::invalid_argument("Matrix must have NxN size as in the template");
@@ -39,6 +40,7 @@ double ChristoffelSymbols::computeChristoffelSybmbolsAtPoint(Point<N> point, int
     return result/2;
 }
 
-Metric* ChristoffelSymbols::getMetric(){
+template <size_t N>
+Metric<N>* ChristoffelSymbols<N>::getMetric(){
     return this->currentMetric;
 }

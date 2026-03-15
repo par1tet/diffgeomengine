@@ -5,15 +5,15 @@
 #include<iostream>
 
 template <size_t N>
-Manifold<N>::Manifold(Metric* metric){
+Manifold<N>::Manifold(Metric<N>* metric){
     this->metric = metric;
     int n = metric->getSize();
     this->geodesic = new Geodesic(new ChristoffelSymbols(this->metric));
-    this->embedding = zero<n>;
+    this->embedding = zeroPoint<n>;
 };
 
 template <size_t N>
-Manifold<N>::Manifold(Metric* metric, Embedding<N> embedding){
+Manifold<N>::Manifold(Metric<N>* metric, Embedding<N> embedding){
     this->metric = metric;
     this->geodesic = new Geodesic(new ChristoffelSymbols(this->metric));
     this->embedding = embedding;
@@ -26,12 +26,12 @@ Manifold<N>::~Manifold(){
 }
 
 template <size_t N>
-Metric* Manifold<N>::getMetric(){
+Metric<N>* Manifold<N>::getMetric(){
     return this->metric;
 }
 
 template <size_t N>
-Geodesic* Manifold<N>::getGeodesic(){
+Geodesic<N>* Manifold<N>::getGeodesic(){
     return this->geodesic;
 }
 
@@ -80,7 +80,7 @@ State<N> Manifold<N>::normalizeVelocity(State<N> state, double normal){
     }
 
     if(std::abs(length2) < 1e-12)
-        throw std::runtime_error("Zero velocity norm");
+        throw std::runtime_error("zeroPoint velocity norm");
 
     double scale = std::sqrt(std::abs(normal / length2));
 
