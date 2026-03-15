@@ -77,11 +77,16 @@ Point<N> zeroPoint(Point<N> x){
 }
 
 template <size_t N>
+double zeroComponent(Point<N> x){
+    return 0.0;
+}
+
+template <size_t N>
 ComponentsType<N> zeroPointComponents(){
     ComponentsType<N> comps;
     
     for(size_t i = 0;i < N;++i){
-        comps[i].fill(zeroPoint<N>);
+        comps[i].fill(zeroComponent<N>);
     }
 
     return comps;
