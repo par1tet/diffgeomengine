@@ -43,7 +43,7 @@ Geodesic<N>::~Geodesic(){
 template<size_t N>
 State<N> Geodesic<N>::geodesicRhs(double time, State<N>& initState,
         VectorField<N> force, bool isLogging){
-    State dInit(initState.dimension);
+    State<N> dInit = State<N>();
     
     dInit.x0 = initState.v0;
 
@@ -55,7 +55,7 @@ State<N> Geodesic<N>::geodesicRhs(double time, State<N>& initState,
                 acc -= this->christoffelSymbols->computeChristoffelSybmbolsAtPoint(initState.x0, k, i, j) * initState.v0[i] * initState.v0[j];
             }
         }
-        std::vector<double> forceVector = force(initState.x0);
+        Point<N> forceVector = force(initState.x0);
         if(forceVector.size() != initState.dimension){
             throw std::runtime_error("Force vector dimension is not equal initState dimension");
         }

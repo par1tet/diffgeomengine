@@ -40,26 +40,20 @@ double funczeroPoint(Point<N> x){
     return 0;
 }
 
-
 template<size_t N>
 void checkRightIndices(int i, int j, Components<N> components){
     if (i < 0 || static_cast<size_t>(i) >= N) {
         throw std::out_of_range("Row index out of range");
     }
     
-    if (j < 0 || static_cast<size_t>(j) >= components[i].size()) {
+    if (j < 0 || static_cast<size_t>(j) >= N) {
         throw std::out_of_range("Column index out of range");
     }
     
-    if (components[i][j] == nullptr) {
+    if (components.components[i][j] == nullptr) {
         throw std::runtime_error("Component at (" + std::to_string(i) + "," + 
                                  std::to_string(j) + ") is not initialized");
     }
-}
-
-template<size_t N>
-Point<N> zeroPoint(Point<N> x){
-    return Point<N>();
 }
 
 template<size_t N>
@@ -91,7 +85,7 @@ template<size_t N>
 std::function<double(const Point<N>&)> Metric<N>::getComponent(int i, int j) {
     checkRightIndices(i, j, this->metricComponents);
   
-    return metricComponents[i][j];
+    return metricComponents.components[i][j];
 }
 
 template<size_t N>

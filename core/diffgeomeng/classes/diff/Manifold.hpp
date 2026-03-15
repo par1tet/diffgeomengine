@@ -28,15 +28,14 @@ private:
 template <size_t N>
 Manifold<N>::Manifold(Metric<N>* metric){
     this->metric = metric;
-    int n = metric->getSize();
-    this->geodesic = new Geodesic(new ChristoffelSymbols(this->metric));
-    this->embedding = zeroPoint<n>;
+    this->geodesic = new Geodesic<N>(new ChristoffelSymbols<N>(this->metric));
+    this->embedding = Embedding<N>();
 };
 
 template <size_t N>
 Manifold<N>::Manifold(Metric<N>* metric, Embedding<N> embedding){
     this->metric = metric;
-    this->geodesic = new Geodesic(new ChristoffelSymbols(this->metric));
+    this->geodesic = new Geodesic<N>(new ChristoffelSymbols<N>(this->metric));
     this->embedding = embedding;
 };
 
@@ -63,12 +62,12 @@ int Manifold<N>::getDimension(){
 
 template <size_t N>
 Point<N> Manifold<N>::doEmbedding(Point<N> x){
-    return this->embedding(x);
+    return this->embedding.embFunc(x);
 }
 
 template <size_t N>
 State<N> Manifold<N>::normalizeVelocity(State<N> state, double normal){
-    State newState(state);
+    State<N> newState(state);
 
     auto g = this->metric->getMatrixAtPoint(newState.x0);
 

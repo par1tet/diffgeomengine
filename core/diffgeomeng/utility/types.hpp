@@ -38,6 +38,7 @@ struct Embedding {
     std::function<Point<N>(Point<N>)> embFunc;
 
     Embedding(std::function<Point<N>(Point<N>)> embFunc) : embFunc(embFunc){}
+    Embedding() : embFunc([](Point<N> point){return point;}){}
 };
 
 template <size_t N>
