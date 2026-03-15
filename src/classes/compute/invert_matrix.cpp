@@ -1,13 +1,18 @@
 #include<diffgeomeng/classes/compute/invert_matrix.hpp>
 #include<iostream>
 
-std::vector<std::vector<double>> invertComponentMatrix(
-    const std::vector<std::vector<std::function<double(const std::vector<double>&)>>>& componentMatrix,
-    const std::vector<double>& point) {
+template <size_t N>
+std::array<std::array<double, N>, N> invertComponentMatrix(
+    const std::array<std::array<std::function<double(const std::array<double, N>&)>, N>, N>& componentMatrix,
+    const Point<N>& point) {
     
     size_t n = componentMatrix.size();
     if (n == 0) {
         throw std::invalid_argument("Matrix is empty");
+    }
+
+    if(n != N){
+        throw std::invalid_argument("Matrix must have NxN size as in the template");
     }
 
     for (const auto& row : componentMatrix) {
@@ -16,9 +21,9 @@ std::vector<std::vector<double>> invertComponentMatrix(
         }
     }
 
-    std::vector<std::vector<double>> A(n, std::vector<double>(n));
-    for (size_t i = 0; i < n; ++i) {
-        for (size_t j = 0; j < n; ++j) {
+    std::array<std::array<double, N>, N> A(n, std::array<double, N>(n));
+    for (size_t i = 0; i < N; ++i) {
+        for (size_t j = 0; j < N; ++j) {
             if(componentMatrix[i][j] == nullptr){
                 continue;
             }
@@ -26,8 +31,8 @@ std::vector<std::vector<double>> invertComponentMatrix(
         }
     }
     
-    std::vector<std::vector<double>> LU = A;
-    std::vector<int> permutations(n);
+    std::array<std::array<double, N>, N> LU = A;
+    std::array<int, N> permutations;
     for (size_t i = 0; i < n; ++i) {
         permutations[i] = i;
     }
@@ -59,18 +64,18 @@ std::vector<std::vector<double>> invertComponentMatrix(
         }
     }
     
-    std::vector<std::vector<double>> inverse(n, std::vector<double>(n, 0.0));
+    std::array<std::array<double, N>, N> inverse(n, std::array<double, N>(n, 0.0));
     for (size_t i = 0; i < n; ++i) {
         inverse[i][i] = 1.0;
     }
     
-    std::vector<std::vector<double>> permutedIdentity(n, std::vector<double>(n));
+    std::array<std::array<double, N>, N> permutedIdentity(n, std::array<double, N>(n));
     for (size_t i = 0; i < n; ++i) {
         permutedIdentity[i] = inverse[permutations[i]];
     }
     
     for (size_t col = 0; col < n; ++col) {
-        std::vector<double> y(n);
+        std::array<double, N> y(n);
         for (size_t i = 0; i < n; ++i) {
             double sum = 0.0;
             for (size_t j = 0; j < i; ++j) {

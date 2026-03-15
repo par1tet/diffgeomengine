@@ -3,21 +3,21 @@
 #include<iostream>
 #include<exception>
 
-MetricGrid::MetricGrid(Manifold* manifold): manifold(manifold){
+
+template<size_t N>
+MetricGrid<N>::MetricGrid(Manifold<N>* manifold): manifold(manifold){
 }
 
-std::vector<Curve> 
-MetricGrid::computePoints(
+template<size_t N>
+std::vector<Curve> MetricGrid<N>::computePoints(
     const std::vector<int>& size,
     const std::vector<double>& gaps,
-    std::function<std::vector<double>(const std::vector<double>&)> embedding,
+    std::function<std::array<double, N>(const std::array<double, N>&)> embedding,
     double T,
     double dt,
     int directionDensity,
-    std::vector<double> origin,
-    std::function<std::vector<double>(std::vector<double>)> force){
-    int N = this->manifold->getDimension();
-
+    Point<N> origin,
+    std::function<std::array<double, N>(std::array<double, N>)> force){
     // -------
 
     if(gaps.size() != N){

@@ -11,8 +11,10 @@ Geodesic::~Geodesic(){
     delete this->christoffelSymbols;
 }
 
-State Geodesic::geodesicRhs(double time, State& initState,
-        std::function<std::vector<double>(std::vector<double>)> force, bool isLogging){
+
+template<size_t N>
+State<N> Geodesic::geodesicRhs(double time, State<N>& initState,
+        std::function<std::array<double, N>(std::array<double, N>)> force, bool isLogging){
     State dInit(initState.dimension);
     
     dInit.x0 = initState.v0;
@@ -58,9 +60,10 @@ State Geodesic::geodesicRhs(double time, State& initState,
     return dInit;
 }
 
-State Geodesic::computeGeodesicNextState(double time, State& initState, double dx,
-         std::function<std::vector<double>(std::vector<double>)> force, bool isLogging){
-    checkCorrectState(initState);
+template<size_t N>
+State<N> Geodesic::computeGeodesicNextState(double time, State<N>& initState, double dx,
+         std::function<std::array<double, N>(std::array<double, N>)> force, bool isLogging){
+    checkCorrectState<N>(initState);
     
     if(isLogging){
         std::cout << "<-----Positioin----->" << std::endl;
@@ -76,14 +79,15 @@ State Geodesic::computeGeodesicNextState(double time, State& initState, double d
         }
     }
 
-    return computeRK4(time,
-        [this, force, isLogging](double t, State state) {
+    return computeRK4<N>(time,
+        [this, force, isLogging](double t, State<N> state) {
             return this->geodesicRhs(t, state, force, isLogging);
         },initState, dx);
 }
 
-Curve Geodesic::computeGeodesic(double T, State& initState, double dx,
-         std::function<std::vector<double>(std::vector<double>)> force){
+template<size_t N>
+Curve Geodesic::computeGeodesic(double T, State<N>& initState, double dx,
+         std::function<std::array<double, N>(std::array<double, N>)> force){
     checkCorrectState(initState);
     Curve geodesic;
     State newInitState = initState;

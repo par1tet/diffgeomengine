@@ -6,20 +6,21 @@
 #include<diffgeomeng/classes/diff/Geodesic.hpp>
 #include<vector>
 
+template <size_t N>
 class Manifold {
 public:
     Manifold(Metric*);
-    Manifold(Metric*, Embedding);
+    Manifold(Metric*, Embedding<N>);
     ~Manifold();
 
     Metric* getMetric();
-    State normalizeVelocity(State state, double normal = 1.0);
+    State<N> normalizeVelocity(State<N> state, double normal = 1.0);
     Geodesic* getGeodesic();
     int getDimension();
-    std::vector<double> doEmbedding(std::vector<double> x);
+    Point<N> doEmbedding(Point<N> x);
     
 private:
     Metric* metric;
     Geodesic* geodesic;
-    Embedding embedding;
+    Embedding<N> embedding;
 };

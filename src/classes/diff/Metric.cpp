@@ -4,6 +4,7 @@
 #include <algorithm>
 #include<diffgeomeng/classes/compute/invert_matrix.hpp>
 #include <iostream>
+#include <diffgeomeng/utility/types.hpp>
 
 double funcZero(std::vector<double> x){
     return 0;
@@ -24,8 +25,9 @@ void checkRightIndices(int i, int j, Components components){
     }
 }
 
-std::vector<double> zero(std::vector<double> x){
-    return std::vector<double>(x.size(),0);
+template<size_t N>
+Point<N> zero(Point<N> x){
+    return Point<N>();
 }
 
 Metric::Metric(const Components& components): metricComponents(components) {
@@ -34,6 +36,7 @@ Metric::Metric(const Components& components): metricComponents(components) {
     }
 };
 
+template<size_t N>
 Metric::Metric(const std::vector<std::function<double(const std::vector<double>&)>>& components) {
     size_t n = components.size();
 
@@ -57,13 +60,15 @@ Metric::Metric(const std::vector<std::function<double(const std::vector<double>&
     this->isDiagonal = true;
 }
 
-std::function<double(const std::vector<double>&)> Metric::getComponent(int i, int j) {
+template<size_t N>
+std::function<double(const Point<N>&)> Metric::getComponent(int i, int j) {
     checkRightIndices(i, j, this->metricComponents);
   
     return metricComponents[i][j];
 }
 
-double Metric::getReverseInPoint(std::vector<double> point, int i, int j){
+template<size_t N>
+double Metric::getReverseInPoint(Point<N> point, int i, int j){
     checkRightIndices(i, j, this->metricComponents);
 
     return invertComponentMatrix((this->metricComponents), point)[i][j];
@@ -73,18 +78,18 @@ int Metric::getSize(){
     return metricComponents[0].size();
 }
 
-
-std::vector<std::vector<double>> Metric::getMatrixAtPoint(std::vector<double> point){
+template<size_t N>
+std::array<std::array<double, N>, N> Metric::getMatrixAtPoint(Point<N> point){
     int n = this->getSize();
-    if(n != point.size()){
+    if(n != N){
         throw std::runtime_error("Dimension of point must equal dimension of manifold");
     }
 
-    std::vector<std::vector<double>> matrix(n, std::vector<double>(n, 0));
+    std::array<std::array<double, N>, N> matrix(std::array<double, N>());
 
     for(int i = 0;i != n;i++){
         for(int j = i;j != n;j++){
-            matrix[i][j] = this->getComponent(i, j)(point);
+            matrix[i][j] = this->getComponent<N>(i, j)(point);
         }
     }
 
@@ -95,12 +100,13 @@ bool Metric::getIsDiagonal(){
     return this->isDiagonal;
 }
 
-double Metric::getInvariant(State state){
+template<size_t N>
+double Metric::getInvariant(State<N> state){
     double acc = 0;
 
     for(int i = 0;i != state.dimension;i++){
         for(int j = 0;j != state.dimension;j++){
-            acc += this->getComponent(i,j)(state.x0) * state.v0[i] * state.v0[j];
+            acc += this->getComponent<N>(i,j)(state.x0) * state.v0[i] * state.v0[j];
         }
     }
 

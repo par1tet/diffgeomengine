@@ -4,44 +4,51 @@
 #include<glm/gtc/type_ptr.hpp>
 #include<iostream>
 
-Manifold::Manifold(Metric* metric){
+template <size_t N>
+Manifold<N>::Manifold(Metric* metric){
     this->metric = metric;
+    int n = metric->getSize();
     this->geodesic = new Geodesic(new ChristoffelSymbols(this->metric));
-    this->embedding = zero;
+    this->embedding = zero<n>;
 };
 
-Manifold::Manifold(Metric* metric, Embedding embedding){
+template <size_t N>
+Manifold<N>::Manifold(Metric* metric, Embedding<N> embedding){
     this->metric = metric;
     this->geodesic = new Geodesic(new ChristoffelSymbols(this->metric));
     this->embedding = embedding;
 };
 
-Manifold::~Manifold(){
+template <size_t N>
+Manifold<N>::~Manifold(){
     delete this->metric;
     delete this->geodesic;
 }
 
-Metric* Manifold::getMetric(){
+template <size_t N>
+Metric* Manifold<N>::getMetric(){
     return this->metric;
 }
 
-Geodesic* Manifold::getGeodesic(){
+template <size_t N>
+Geodesic* Manifold<N>::getGeodesic(){
     return this->geodesic;
 }
 
-int Manifold::getDimension(){
+template <size_t N>
+int Manifold<N>::getDimension(){
     return this->metric->getSize();
 }
 
-
-std::vector<double> Manifold::doEmbedding(std::vector<double> x){
+template <size_t N>
+Point<N> Manifold<N>::doEmbedding(Point<N> x){
     return this->embedding(x);
 }
 
-State Manifold::normalizeVelocity(State state, double normal){
+template <size_t N>
+State<N> Manifold<N>::normalizeVelocity(State<N> state, double normal){
     State newState(state);
 
-    int N = this->getDimension();
     auto g = this->metric->getMatrixAtPoint(newState.x0);
 
     double length2 = 0.0;

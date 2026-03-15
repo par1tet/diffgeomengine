@@ -5,20 +5,29 @@
 #include<string>
 #include<diffgeomeng/utility/types.hpp>
 
-std::vector<double> zero(std::vector<double> x);
+template <size_t N>
+std::array<double, N> zero(std::array<double, N> x);
 
 class Metric{
 public:
     Metric(const Components&);
+
+    template <size_t N>
     Metric(const std::vector<std::function<double(const std::vector<double>&)>>&);
     virtual ~Metric() = default;
 
-    std::function<double(const std::vector<double>&)> getComponent(int i, int j);
-    double getReverseInPoint(std::vector<double> point, int i, int j);
+    template <size_t N>
+    std::function<double(const Point<N>&)> getComponent(int i, int j);
+    template <size_t N>
+    double getReverseInPoint(Point<N> point, int i, int j);
     int getSize();
-    std::vector<std::vector<double>> getMatrixAtPoint(std::vector<double> point);
+
+    template <size_t N>
+    std::array<std::array<double, N>, N> getMatrixAtPoint(Point<N> point);
     bool getIsDiagonal();
-    double getInvariant(State state);
+
+    template <size_t N>
+    double getInvariant(State<N> state);
 
 private:
     Components metricComponents;

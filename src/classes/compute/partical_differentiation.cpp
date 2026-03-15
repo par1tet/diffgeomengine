@@ -1,6 +1,7 @@
 #include<diffgeomeng/classes/compute/partical_differentiation.hpp>
 #include <stdexcept>
 
+template <size_t N>
 double diffBy(std::function<double(const std::vector<double>&)> func, const std::vector<double>& point, int p_index, double dx){
     if(func == nullptr){
         return 0;
@@ -10,7 +11,7 @@ double diffBy(std::function<double(const std::vector<double>&)> func, const std:
         throw std::out_of_range("Index out of bounds in diffBy");
     }
     
-    std::vector<double> copyPoint(point);
+    std::array<double, N> copyPoint(point);
 
     copyPoint[p_index] += dx;
     double dPlus = func(copyPoint);

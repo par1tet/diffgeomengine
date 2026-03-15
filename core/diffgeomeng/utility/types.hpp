@@ -4,25 +4,41 @@
 #include<functional>
 
 typedef std::vector<std::vector<std::function<double(const std::vector<double>&)>>> Components;
-typedef std::function<std::vector<double>(std::vector<double>)> Embedding;
+
+template <size_t N>
+struct Embedding {
+    std::function<std::array<double, N>(std::array<double, N>)> embFunc;
+
+    Embedding(std::function<std::array<double, N>(std::array<double, N>)> embFunc) : embFunc(embFunc){}
+};
 
 struct Curve {
     std::vector<std::vector<double>> points;
 };
 
+template <size_t N>
 struct State {
-    std::vector<double> x0;
-    std::vector<double> v0;
-    int dimension;
+    std::array<double, N> x0;
+    std::array<double, N> v0;
+    constexpr static size_t dimension = N;
 
-    State(int d) : 
-        x0(std::vector<double>(d, 0.0)),
-        v0(std::vector<double>(d, 0.0)),
-        dimension(d) {}
+    State() {
+        x0.fill(0.0);
+        v0.fill(0.0);
+    }
 
-    State(std::vector<double> x0,std::vector<double> v0, int d) : 
-        x0(x0),
-        v0(v0),
-        dimension(d) {}
+    State(std::array<double,N> x0,
+          std::array<double,N> v0)
+        : x0(x0), v0(v0) {}
 };
 
+template <size_t N>
+struct Point {
+    std::array<double, N> x;
+
+    Point() {
+        x.fill(0.0);
+    }
+
+    Point(std::array<double,N> x0) : x(x0){}
+};

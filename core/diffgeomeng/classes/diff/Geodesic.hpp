@@ -8,17 +8,20 @@ public:
     Geodesic(ChristoffelSymbols* christo);
     ~Geodesic();
 
-    State computeGeodesicNextState(double time, State& initState, double dx=0.02,
-         std::function<std::vector<double>(std::vector<double>)> force = zero, bool isLogging = false);
+    template<size_t N>
+    State<N> computeGeodesicNextState(double time, State<N>& initState, double dx=0.02,
+         std::function<std::array<double, N>(std::array<double, N>)> force = zero, bool isLogging = false);
 
-    Curve computeGeodesic(double T, State& initState, double dx = 0.02,
-         std::function<std::vector<double>(std::vector<double>)> force = zero);
+    template<size_t N>
+    Curve computeGeodesic(double T, State<N>& initState, double dx = 0.02,
+         std::function<std::array<double, N>(std::array<double, N>)> force = zero);
 
      ChristoffelSymbols* getChristoffelSymbols();
 
 private:
-    State geodesicRhs(double time, State& initState,
-         std::function<std::vector<double>(std::vector<double>)> force = zero, bool isLogging = false);
+    template<size_t N>
+    State<N> geodesicRhs(double time, State<N>& initState,
+         std::function<std::array<double, N>(std::array<double, N>)> force = zero, bool isLogging = false);
 
     ChristoffelSymbols* christoffelSymbols;
 };

@@ -1,6 +1,7 @@
 #include<diffgeomeng/utility/functions.hpp>
 
-void checkCorrectState(State state){
+template <size_t N>
+void checkCorrectState(State<N> state){
     if((state.dimension != state.x0.size()) || (state.dimension != state.v0.size())){
         throw std::runtime_error("Size of x0 and v0 must equal dimension of the state");
     }

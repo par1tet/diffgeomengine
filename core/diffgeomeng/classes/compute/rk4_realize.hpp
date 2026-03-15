@@ -4,4 +4,5 @@
 #include<vector>
 #include<diffgeomeng/utility/types.hpp>
 
-State computeRK4(double time, std::function<State(double, State)> func, const State& initState, double dx);
+template <size_t N>
+State<N> computeRK4(double time, std::function<State<N>(double, State<N>)> func, const State<N>& initState, double dx);

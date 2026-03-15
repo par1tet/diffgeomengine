@@ -3,4 +3,5 @@
 #include<stdexcept>
 #include<diffgeomeng/utility/types.hpp>
 
-void checkCorrectState(State state);
+template <size_t N>
+void checkCorrectState(State<N> state);
