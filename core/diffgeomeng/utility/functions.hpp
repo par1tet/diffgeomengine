@@ -6,4 +6,15 @@
 template <size_t N>
 void checkCorrectState(State<N> state);
 
-#include<src/utility/functions.tpp>
+/////////// IMPLEMENTATION /////////////
+
+template <size_t N>
+void checkCorrectState(State<N> state){
+    if((state.dimension != state.x0.size()) || (state.dimension != state.v0.size())){
+        throw std::runtime_error("Size of x0 and v0 must equal dimension of the state");
+    }
+
+    if(state.dimension < 1){
+        throw std::runtime_error("Dimension of state must be greater then one");
+    }
+}

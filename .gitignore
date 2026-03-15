@@ -7,3 +7,5 @@ libs
 /libs
 src/main.cpp
 .vscode
+src
+/src

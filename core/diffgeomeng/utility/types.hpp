@@ -68,4 +68,20 @@ using VectorField = std::function<Point<N>(Point<N>)>;
 template <size_t N>
 VectorField<N> zeroVectorField(){return [](Point<N> x){return Point<N>();};}
 
-#include <src/types.tpp>
+/////////// IMPLEMENTATION /////////////
+
+template <size_t N>
+Point<N> zeroPoint(Point<N> x){
+    return Point<N>();
+}
+
+template <size_t N>
+ComponentsType<N> zeroPointComponents(){
+    ComponentsType<N> comps;
+    
+    for(int i = 0;i != N;i++){
+        comps[i].fill(zeroPoint);
+    }
+
+    return comps;
+}
