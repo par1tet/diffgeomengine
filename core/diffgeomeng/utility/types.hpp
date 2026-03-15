@@ -58,3 +58,9 @@ struct Components {
     Components<N>(ComponentsType<N> components): components(components){}
     Components<N>(): components(zeroPointComponents<N>()){}
 };
+
+template <size_t N>
+using VectorField = std::function<Point<N>(Point<N>)>;
+
+template <size_t N>
+VectorField<N> zeroVectorField(){return [](Point<N> x){return Point<N>();};}

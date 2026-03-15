@@ -16,7 +16,7 @@ Geodesic<N>::~Geodesic(){
 
 template<size_t N>
 State<N> Geodesic<N>::geodesicRhs(double time, State<N>& initState,
-        std::function<std::array<double, N>(std::array<double, N>)> force, bool isLogging){
+        VectorField<N> force, bool isLogging){
     State dInit(initState.dimension);
     
     dInit.x0 = initState.v0;
@@ -64,7 +64,7 @@ State<N> Geodesic<N>::geodesicRhs(double time, State<N>& initState,
 
 template<size_t N>
 State<N> Geodesic<N>::computeGeodesicNextState(double time, State<N>& initState, double dx,
-         std::function<std::array<double, N>(std::array<double, N>)> force, bool isLogging){
+         VectorField<N> force, bool isLogging){
     checkCorrectState<N>(initState);
     
     if(isLogging){
@@ -89,7 +89,7 @@ State<N> Geodesic<N>::computeGeodesicNextState(double time, State<N>& initState,
 
 template<size_t N>
 Curve<N> Geodesic<N>::computeGeodesic(double T, State<N>& initState, double dx,
-         std::function<std::array<double, N>(std::array<double, N>)> force){
+         VectorField<N> force){
     checkCorrectState(initState);
     Curve<N> geodesic;
     State<N> newInitState = initState;

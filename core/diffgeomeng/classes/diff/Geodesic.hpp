@@ -10,16 +10,16 @@ public:
     ~Geodesic();
 
     State<N> computeGeodesicNextState(double time, State<N>& initState, double dx=0.02,
-         std::function<std::array<double, N>(std::array<double, N>)> force = zeroPoint, bool isLogging = false);
+         VectorField<N> force = zeroVectorField<N>(), bool isLogging = false);
 
     Curve<N> computeGeodesic(double T, State<N>& initState, double dx = 0.02,
-         std::function<std::array<double, N>(std::array<double, N>)> force = zeroPoint);
+         VectorField<N> force = zeroVectorField<N>());
 
      ChristoffelSymbols<N>* getChristoffelSymbols();
 
 private:
     State<N> geodesicRhs(double time, State<N>& initState,
-         std::function<std::array<double, N>(std::array<double, N>)> force = zeroPoint, bool isLogging = false);
+         VectorField<N> force = zeroVectorField<N>(), bool isLogging = false);
 
     ChristoffelSymbols<N>* christoffelSymbols;
 };
