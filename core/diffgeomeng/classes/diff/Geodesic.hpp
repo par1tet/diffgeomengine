@@ -56,10 +56,7 @@ State<N> Geodesic<N>::geodesicRhs(double time, State<N>& initState,
             }
         }
         Point<N> forceVector = force(initState.x0);
-        if(forceVector.size() != initState.dimension){
-            throw std::runtime_error("Force vector dimension is not equal initState dimension");
-        }
-        acc += forceVector[k];
+        acc += forceVector.x[k];
 
         dInit.v0[k] = acc;
     }

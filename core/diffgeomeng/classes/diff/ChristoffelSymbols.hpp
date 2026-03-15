@@ -36,19 +36,19 @@ double ChristoffelSymbols<N>::computeChristoffelSybmbolsAtPoint(Point<N> point, 
     
     if(metric.getIsDiagonal()){
         if((k == i) && (i == j)){
-            result = diffBy(metric.getComponent<N>(i, k), point, k) / metric.getComponent<N>(i, k)(point);
+            result = diffBy(metric.getComponent(i, k), point, k) / metric.getComponent(i, k)(point);
         }else if(((k == i) && (i != j))){
-            result = diffBy(metric.getComponent<N>(i, k), point, j) / metric.getComponent<N>(i, k)(point);
+            result = diffBy(metric.getComponent(i, k), point, j) / metric.getComponent(i, k)(point);
         }else if(((k == j) && (i != j))){
-            result = diffBy(metric.getComponent<N>(j, k), point, i) / metric.getComponent<N>(j, k)(point);
+            result = diffBy(metric.getComponent(j, k), point, i) / metric.getComponent(j, k)(point);
         }else if(((k != i) && (i == j))){
-            result = -diffBy(metric.getComponent<N>(j, i), point, k) / metric.getComponent<N>(k, k)(point);
+            result = -diffBy(metric.getComponent(j, i), point, k) / metric.getComponent(k, k)(point);
         }else{
             result = 0;
         }
     }else{
         for(int l = 0;l != metric.getSize();l++){
-            result += metric.getReverseInPoint<N>(point, k, l) * (diffBy<N>(metric.getComponent<N>(j,l), point, i) + diffBy<N>(metric.getComponent<N>(i,l), point, j) - diffBy<N>(metric.getComponent<N>(i,j), point, l));
+            result += metric.getReverseInPoint(point, k, l) * (diffBy<N>(metric.getComponent(j,l), point, i) + diffBy<N>(metric.getComponent(i,l), point, j) - diffBy<N>(metric.getComponent(i,j), point, l));
         }
     }
     

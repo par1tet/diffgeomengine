@@ -58,7 +58,7 @@ void checkRightIndices(int i, int j, Components<N> components){
 
 template<size_t N>
 Metric<N>::Metric(const Components<N>& components): metricComponents(components) {
-    if(metricComponents.size() != metricComponents[0].size()){
+    if(this->metricComponents.size() != this->metricComponents[0].size()){
         throw std::runtime_error("Matrix of components must be squared");
     }
 };
@@ -69,12 +69,12 @@ Metric<N>::Metric(const ComponentsRowType<N>& components) {
         throw std::runtime_error("Count of components less then one");
     }
     
-    metricComponents = Components<N>();
+    this->metricComponents = Components<N>();
     
     for (size_t i = 0; i < N; ++i) {
         for (size_t j = 0; j < N; ++j) {
             if (i == j) {
-                metricComponents[i][j] = components[i];
+                this->metricComponents[i][j] = components[i];
             }
         }
     }
@@ -85,7 +85,7 @@ template<size_t N>
 std::function<double(const Point<N>&)> Metric<N>::getComponent(int i, int j) {
     checkRightIndices(i, j, this->metricComponents);
   
-    return metricComponents.components[i][j];
+    return this->metricComponents.components[i][j];
 }
 
 template<size_t N>
@@ -107,11 +107,11 @@ std::array<std::array<double, N>, N> Metric<N>::getMatrixAtPoint(Point<N> point)
         throw std::runtime_error("Dimension of point must equal dimension of manifold");
     }
 
-    std::array<std::array<double, N>, N> matrix(std::array<double, N>());
+    std::array<std::array<double, N>, N> matrix;
 
     for(int i = 0;i != n;i++){
         for(int j = i;j != n;j++){
-            matrix[i][j] = this->getComponent<N>(i, j)(point);
+            matrix[i][j] = this->getComponent(i, j)(point);
         }
     }
 
@@ -129,7 +129,7 @@ double Metric<N>::getInvariant(State<N> state){
 
     for(int i = 0;i != state.dimension;i++){
         for(int j = 0;j != state.dimension;j++){
-            acc += this->getComponent<N>(i,j)(state.x0) * state.v0[i] * state.v0[j];
+            acc += this->getComponent(i,j)(state.x0) * state.v0[i] * state.v0[j];
         }
     }
 

@@ -17,8 +17,8 @@ State<N> computeRK4(double time, std::function<State<N>(double, State<N>)> func,
 
     State<N> k1 = func(time, initState);
 
-    State<N> tempinitState();
-    for(size_t i = 0;i != initState.dimension;i++){
+    State<N> tempinitState = State<N>();
+    for(size_t i = 0;i != N;i++){
         tempinitState.x0[i] = initState.x0[i] + (dx*k1.x0[i])/2;
         tempinitState.v0[i] = initState.v0[i] + (dx*k1.v0[i])/2;
     }
@@ -39,7 +39,7 @@ State<N> computeRK4(double time, std::function<State<N>(double, State<N>)> func,
 
     State<N> k4 = func(time + dx, tempinitState);
 
-    State<N> solutions();
+    State<N> solutions = State<N>();
 
     for(size_t i = 0;i != initState.dimension;i++){
         solutions.x0[i] = initState.x0[i] + dx/6 * (k1.x0[i] + 2*(k2.x0[i] + k3.x0[i]) + k4.x0[i]);
