@@ -10,7 +10,7 @@ class Metric{
 public:
     Metric<N>(const Components<N>&);
 
-    Metric<N>(const std::array<std::function<double(const std::array<double, N>&)>, N>&);
+    Metric<N>(const ComponentsRowType<N>&);
     virtual ~Metric() = default;
 
     std::function<double(const Point<N>&)> getComponent(int i, int j);

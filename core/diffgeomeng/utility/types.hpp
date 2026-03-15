@@ -46,6 +46,9 @@ struct Curve {
 };
 
 template <size_t N>
+using ComponentsRowType = std::array<std::function<double(const std::array<double, N>&)>,N>;
+
+template <size_t N>
 using ComponentsType = std::array<std::array<std::function<double(const std::array<double, N>&)>,N>, N>;
 
 template <size_t N>

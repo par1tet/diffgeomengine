@@ -41,7 +41,7 @@ Metric<N>::Metric(const Components<N>& components): metricComponents(components)
 };
 
 template<size_t N>
-Metric<N>::Metric(const std::array<std::function<double(const std::array<double, N>&)>, N>& components) {
+Metric<N>::Metric(const ComponentsRowType<N>& components) {
     if(N < 1){
         throw std::runtime_error("Count of components less then one");
     }
