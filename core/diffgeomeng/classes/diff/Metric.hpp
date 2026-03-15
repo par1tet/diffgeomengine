@@ -4,6 +4,12 @@
 #include<functional>
 #include<string>
 #include<diffgeomeng/utility/types.hpp>
+#include <stdexcept>
+#include <cmath>
+#include <algorithm>
+#include<diffgeomeng/classes/compute/invert_matrix.hpp>
+#include <iostream>
+#include <diffgeomeng/utility/types.hpp>
 
 template <size_t N>
 class Metric{
@@ -26,3 +32,5 @@ private:
     Components<N> metricComponents;
     bool isDiagonal = false;
 };
+
+#include<src/classes/diff/Metric.tpp>

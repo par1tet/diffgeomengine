@@ -1,5 +1,3 @@
-#include<diffgeomeng/utility/functions.hpp>
-
 template <size_t N>
 void checkCorrectState(State<N> state){
     if((state.dimension != state.x0.size()) || (state.dimension != state.v0.size())){

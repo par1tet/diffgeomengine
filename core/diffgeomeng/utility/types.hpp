@@ -67,3 +67,5 @@ using VectorField = std::function<Point<N>(Point<N>)>;
 
 template <size_t N>
 VectorField<N> zeroVectorField(){return [](Point<N> x){return Point<N>();};}
+
+#include <src/types.tpp>

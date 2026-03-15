@@ -2,6 +2,8 @@
 
 #include<diffgeomeng/classes/diff/Metric.hpp>
 #include<diffgeomeng/utility/types.hpp>
+#include <stdexcept>
+#include <diffgeomeng/classes/compute/partical_differentiation.hpp>
 
 template <size_t N>
 class ChristoffelSymbols{
@@ -13,3 +15,5 @@ public:
 private:
     Metric<N>* currentMetric;
 };
+
+#include<src/classes/diff/ChristoffelSymbols.tpp>

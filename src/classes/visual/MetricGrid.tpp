@@ -1,8 +1,4 @@
 #include<diffgeomeng/classes/visual/MetricGrid.hpp>
-#include <random>
-#include<iostream>
-#include<exception>
-
 
 template<size_t N>
 MetricGrid<N>::MetricGrid(Manifold<N>* manifold): manifold(manifold){

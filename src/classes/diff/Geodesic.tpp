@@ -1,9 +1,3 @@
-#include<diffgeomeng/classes/diff/Geodesic.hpp>
-#include<diffgeomeng/classes/compute/rk4_realize.hpp>
-#include<iostream>
-#include<cmath>
-#include<diffgeomeng/utility/functions.hpp>
-
 template<size_t N>
 Geodesic<N>::Geodesic(ChristoffelSymbols<N>* christo): christoffelSymbols(christo){};
 

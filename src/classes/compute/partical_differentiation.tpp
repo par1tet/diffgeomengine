@@ -1,6 +1,3 @@
-#include<diffgeomeng/classes/compute/partical_differentiation.hpp>
-#include <stdexcept>
-
 template <size_t N>
 double diffBy(std::function<double(const std::vector<double>&)> func, const std::vector<double>& point, int p_index, double dx){
     if(func == nullptr){

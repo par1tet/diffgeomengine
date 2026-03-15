@@ -1,5 +1,3 @@
-#include<diffgeomeng/utility/types.hpp>
-
 template <size_t N>
 Point<N> zeroPoint(Point<N> x){
     return Point<N>();

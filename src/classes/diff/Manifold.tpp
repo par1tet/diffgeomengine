@@ -1,9 +1,3 @@
-#include<diffgeomeng/classes/diff/Manifold.hpp>
-#include<glm/glm.hpp>
-#include<glm/gtc/matrix_transform.hpp>
-#include<glm/gtc/type_ptr.hpp>
-#include<iostream>
-
 template <size_t N>
 Manifold<N>::Manifold(Metric<N>* metric){
     this->metric = metric;

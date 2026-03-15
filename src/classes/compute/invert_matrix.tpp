@@ -1,6 +1,3 @@
-#include<diffgeomeng/classes/compute/invert_matrix.hpp>
-#include<iostream>
-
 template <size_t N>
 std::array<std::array<double, N>, N> invertComponentMatrix(
     const std::array<std::array<std::function<double(const std::array<double, N>&)>, N>, N>& componentMatrix,

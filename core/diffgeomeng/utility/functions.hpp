@@ -5,3 +5,5 @@
 
 template <size_t N>
 void checkCorrectState(State<N> state);
+
+#include<src/utility/functions.tpp>

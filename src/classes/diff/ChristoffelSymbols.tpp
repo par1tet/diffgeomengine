@@ -1,7 +1,3 @@
-#include<diffgeomeng/classes/diff/ChristoffelSymbols.hpp>
-#include <stdexcept>
-#include <diffgeomeng/classes/compute/partical_differentiation.hpp>
-
 template <size_t N>
 ChristoffelSymbols<N>::ChristoffelSymbols(Metric<N>* metric): currentMetric(metric){
 };

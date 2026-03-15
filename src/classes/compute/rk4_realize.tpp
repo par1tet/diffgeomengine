@@ -1,7 +1,3 @@
-#include<diffgeomeng/classes/compute/rk4_realize.hpp>
-#include<exception>
-#include<diffgeomeng/utility/functions.hpp>
-
 template<size_t N>
 State<N> computeRK4(double time, std::function<State<N>(double, State<N>)> func,const State<N>& initState, double dx){
     checkCorrectState<N>(initState);

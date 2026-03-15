@@ -1,9 +1,7 @@
 #pragma once
 
-#include<glm/glm.hpp>
-#include<glm/gtc/matrix_transform.hpp>
-#include<glm/gtc/type_ptr.hpp>
 #include<diffgeomeng/classes/diff/Geodesic.hpp>
+#include<iostream>
 #include<vector>
 
 template <size_t N>
@@ -24,3 +22,5 @@ private:
     Geodesic<N>* geodesic;
     Embedding<N> embedding;
 };
+
+#include<src/classes/diff/Manifold.tpp>

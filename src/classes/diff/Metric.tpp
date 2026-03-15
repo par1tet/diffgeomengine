@@ -1,11 +1,3 @@
-#include<diffgeomeng/classes/diff/Metric.hpp>
-#include <stdexcept>
-#include <cmath>
-#include <algorithm>
-#include<diffgeomeng/classes/compute/invert_matrix.hpp>
-#include <iostream>
-#include <diffgeomeng/utility/types.hpp>
-
 template<size_t N>
 double funczeroPoint(Point<N> x){
     return 0;

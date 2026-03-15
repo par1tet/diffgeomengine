@@ -2,6 +2,10 @@
 
 #include<diffgeomeng/classes/diff/ChristoffelSymbols.hpp>
 #include<diffgeomeng/utility/types.hpp>
+#include<diffgeomeng/classes/compute/rk4_realize.hpp>
+#include<iostream>
+#include<cmath>
+#include<diffgeomeng/utility/functions.hpp>
 
 template<size_t N>
 class Geodesic{
@@ -23,3 +27,5 @@ private:
 
     ChristoffelSymbols<N>* christoffelSymbols;
 };
+
+#include<src/classes/diff/Geodesic.tpp>

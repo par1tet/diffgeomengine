@@ -2,6 +2,9 @@
 
 #include<diffgeomeng/classes/diff/Manifold.hpp>
 #include<diffgeomeng/utility/types.hpp>
+#include <random>
+#include<iostream>
+#include<exception>
 
 template<size_t N>
 class MetricGrid{
@@ -20,3 +23,5 @@ public:
 private:
     Manifold<N>* manifold;
 };
+
+#include<src/classes/visual/MetricGrid.tpp>
