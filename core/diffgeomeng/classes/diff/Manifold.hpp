@@ -67,7 +67,7 @@ Point<N> Manifold<N>::doEmbedding(Point<N> x){
 
 template <size_t N>
 State<N> Manifold<N>::normalizeVelocity(State<N> state, double normal){
-    State<N> newState(state);
+    State<N> newState = State<N>(state);
 
     auto g = this->metric->getMatrixAtPoint(newState.x0);
 
