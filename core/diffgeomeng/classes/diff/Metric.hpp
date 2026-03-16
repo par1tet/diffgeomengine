@@ -102,16 +102,18 @@ int Metric<N>::getSize(){
 
 template<size_t N>
 std::array<std::array<double, N>, N> Metric<N>::getMatrixAtPoint(Point<N> point){
-    int n = this->getSize();
-    if(n != N){
-        throw std::runtime_error("Dimension of point must equal dimension of manifold");
-    }
+    std::array<std::array<double, N>, N> matrix{};
 
-    std::array<std::array<double, N>, N> matrix;
 
-    for(int i = 0;i != n;i++){
-        for(int j = i;j != n;j++){
-            matrix[i][j] = this->getComponent(i, j)(point);
+    for(int i = 0;i != N;i++){
+        for(int j = i;j != N;j++){
+            double val = this->getComponent(i, j)(point);
+            if(i == j){
+                matrix[i][j] = val;
+            }else{
+                matrix[i][j] = val;
+                matrix[j][i] = val;
+            }
         }
     }
 

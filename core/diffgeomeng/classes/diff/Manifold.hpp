@@ -12,7 +12,7 @@ public:
     ~Manifold();
 
     Metric<N>* getMetric();
-    State<N> normalizeVelocity(State<N> state, double normal = 1.0);
+    State<N> normalizeVelocity(State<N> state, double normal = 1.0, bool isLogging = false);
     Geodesic<N>* getGeodesic();
     int getDimension();
     Point<N> doEmbedding(Point<N> x);
@@ -66,10 +66,10 @@ Point<N> Manifold<N>::doEmbedding(Point<N> x){
 }
 
 template <size_t N>
-State<N> Manifold<N>::normalizeVelocity(State<N> state, double normal){
+State<N> Manifold<N>::normalizeVelocity(State<N> state, double normal, bool isLogging){
     State<N> newState = State<N>(state);
 
-    auto g = this->metric->getMatrixAtPoint(newState.x0);
+    std::array<std::array<double, N>, N> g = this->metric->getMatrixAtPoint(newState.x0);
 
     double length2 = 0.0;
 
@@ -103,6 +103,11 @@ State<N> Manifold<N>::normalizeVelocity(State<N> state, double normal){
         throw std::runtime_error("zeroPoint velocity norm");
 
     double scale = std::sqrt(std::abs(normal / length2));
+
+    if(isLogging){
+        std::cout << "normal: " <<normal <<std::endl;
+        std::cout << "length2: " << length2 <<std::endl;
+    }
 
     for(int i = 0; i < N; ++i){
         newState.v0[i] *= scale;
