@@ -8,11 +8,11 @@
 
 /////////// IMPLEMENTATION /////////////
 
-template <size_t N>
-State<N> computeRK4(double time, std::function<State<N>(double, State<N>)> func, const State<N>& initState, double dx);
+template <size_t N, typename F>
+State<N> computeRK4(double time, F&& func, const State<N>& initState, double dx);
 
-template<size_t N>
-State<N> computeRK4(double time, std::function<State<N>(double, State<N>)> func,const State<N>& initState, double dx){
+template<size_t N, typename F>
+State<N> computeRK4(double time, F&& func,const State<N>& initState, double dx){
     checkCorrectState<N>(initState);
 
     State<N> k1 = func(time, initState);
