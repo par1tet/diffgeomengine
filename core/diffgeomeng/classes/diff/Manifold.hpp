@@ -81,20 +81,21 @@ State<N> Manifold<N>::normalizeVelocity(State<N> state, double normal, bool isLo
     // if null-geodesic
     if(std::abs(normal) < 1e-14)
     {
-        double spatial = 0.0;
+        double a = g[0][0];
+        double b = 0.0;
+        double c = spatial;
 
         for(int i = 1; i < N; ++i){
-            for(int j = 1; j < N; ++j){
-                spatial += g[i][j] * newState.v0[i] * newState.v0[j];
-            }
+            b += 2.0 * g[0][i] * newState.v0[i];
         }
 
-        double gtt = g[0][0];
+        // решаем:
+        double D = b*b - 4*a*c;
 
-        if(std::abs(gtt) < 1e-14)
-            throw std::runtime_error("Metric g_tt ~ 0");
+        if(D < 0)
+            throw std::runtime_error("No real null vector");
 
-        newState.v0[0] = std::sqrt(-spatial / gtt);
+        newState.v0[0] = (-b + std::sqrt(D)) / (2*a); // выбрать нужную ветку
 
         return newState;
     }
