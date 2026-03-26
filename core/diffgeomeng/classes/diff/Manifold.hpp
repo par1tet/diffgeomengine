@@ -151,7 +151,7 @@ std::array<double, N> Manifold<N>::normalizeVector(std::array<double, N> vector,
 
         for(int i = 1; i < N; ++i){
             for(int j = 1; j < N; ++j){
-                spatial += g[i][j] * newVector.v0[i] * newVector.v0[j];
+                spatial += g[i][j] * newVector[i] * newVector[j];
             }
         }
 
