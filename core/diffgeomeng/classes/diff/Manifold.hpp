@@ -16,6 +16,7 @@ public:
     Geodesic<N>* getGeodesic();
     int getDimension();
     Point<N> doEmbedding(Point<N> x);
+    std::array<double, N> normalizeVector(std::array<double, N> vector, Point<N> point, double normal = 1.0, bool isLogging = false);
     
 private:
     Metric<N>* metric;
@@ -128,4 +129,69 @@ State<N> Manifold<N>::normalizeVelocity(State<N> state, double normal, bool isLo
     }
 
     return newState;
+}
+
+
+template <size_t N>
+std::array<double, N> Manifold<N>::normalizeVector(std::array<double, N> vector, Point<N> point, double normal = 1.0, bool isLogging = false){
+    std::array<double, N> newVector{};
+    std::array<std::array<double, N>, N> g = this->metric->getMatrixAtPoint(point);
+
+    double length2 = 0.0;
+
+    for(int i = 0; i < N; ++i){
+        for(int j = 0; j < N; ++j)
+            length2 += g[i][j] * newVector[i] * newVector[j];
+    }
+
+    // if null-geodesic
+    if(std::abs(normal) < 1e-14)
+    {
+        double spatial = 0.0;
+
+        for(int i = 1; i < N; ++i){
+            for(int j = 1; j < N; ++j){
+                spatial += g[i][j] * newVector.v0[i] * newVector.v0[j];
+            }
+        }
+
+        double gtt = g[0][0];
+
+        if(std::abs(gtt) < 1e-14)
+            throw std::runtime_error("Metric g_tt ~ 0");
+
+        double a = g[0][0];
+        double b = 0.0;
+        double c = spatial;
+
+        for(int i = 1; i < N; ++i){
+            b += 2.0 * g[0][i] * newVector[i];
+        }
+
+        // решаем:
+        double D = b*b - 4*a*c;
+
+        if(D < 0)
+            throw std::runtime_error("No real null vector");
+
+        newVector[0] = (-b + std::sqrt(D)) / (2*a); // выбрать нужную ветку
+
+        return newVector;
+    }
+
+    if(std::abs(length2) < 1e-12)
+        throw std::runtime_error("zeroPoint velocity norm");
+
+    double scale = std::sqrt(std::abs(normal / length2));
+
+    if(isLogging){
+        std::cout << "normal: " <<normal <<std::endl;
+        std::cout << "length2: " << length2 <<std::endl;
+    }
+
+    for(int i = 0; i < N; ++i){
+        newVector[i] *= scale;
+    }
+
+    return newVector;   
 }
