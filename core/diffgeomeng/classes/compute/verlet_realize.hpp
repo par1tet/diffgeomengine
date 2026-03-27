@@ -23,7 +23,7 @@ inline State<N> computeVerlet(Hamiltonian<N>* ham,const State<N>& initStateP, do
         integrateState.v0[i] -= 0.5 * dx * halfKick_first[i];
     }
 
-    Point<N> drift = ham->dHdp(integrateState.x0, integrateState.v0);
+    Vector<N> drift = ham->dHdp(integrateState.x0, integrateState.v0);
 
     for(size_t i = 0;i < N;i++){
         integrateState.x0[i] += dx * drift[i];
