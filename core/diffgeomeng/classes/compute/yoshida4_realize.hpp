@@ -14,9 +14,9 @@ inline State<N> computeYoshida4(Hamiltonian<N>* ham,const State<N>& initStateP, 
     const double w1 = 1.35120719195966;
     const double w2 = -1.70241438391932;
 
-    integrateState = computeVerlet(ham, state, w1 * dt);
-    integrateState = computeVerlet(ham, state, w2 * dt);
-    integrateState = computeVerlet(ham, state, w1 * dt); 
+    integrateState = computeVerlet(ham, integrateState, w1 * dt);
+    integrateState = computeVerlet(ham, integrateState, w2 * dt);
+    integrateState = computeVerlet(ham, integrateState, w1 * dt); 
 
     return integrateState;
 }
