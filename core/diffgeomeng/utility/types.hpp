@@ -4,6 +4,9 @@
 #include<functional>
 
 template <size_t N>
+using Vector = std::array<double, N>;
+
+template <size_t N>
 struct State {
     std::array<double, N> x0;
     std::array<double, N> v0;
@@ -68,6 +71,12 @@ using VectorField = std::function<Point<N>(Point<N>)>;
 
 template <size_t N>
 VectorField<N> zeroVectorField(){return [](Point<N> x){return Point<N>();};}
+
+template <size_t N>
+struct Hamiltonian{
+    Point<N> dHdx(Point<N>, Vector<N>);
+    Vector<N> dHdp(Point<N>, Vector<N>);
+};
 
 /////////// IMPLEMENTATION /////////////
 
