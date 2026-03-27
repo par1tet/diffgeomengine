@@ -74,8 +74,8 @@ VectorField<N> zeroVectorField(){return [](Point<N> x){return Point<N>();};}
 
 template <size_t N>
 struct Hamiltonian{
-    Vector<N> dHdx(Vector<N>, Vector<N>);
-    Vector<N> dHdp(Vector<N>, Vector<N>);
+    virtual Vector<N> dHdx(Vector<N>, Vector<N>) const;
+    virtual Vector<N> dHdp(Vector<N>, Vector<N>) const;
 };
 
 /////////// IMPLEMENTATION /////////////
