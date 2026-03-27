@@ -18,7 +18,7 @@ inline State<N> computeEuler(Hamiltonian<N>* ham,const State<N>& initStateP, dou
     Vector<N> halfKick_first = ham->dHdx(integrateState.x0, integrateState.v0);
 
     for(size_t i = 0;i < N;i++){
-        integrateState.v0[i] -= * dx * halfKick_first[i];
+        integrateState.v0[i] -= dx * halfKick_first[i];
     }
 
     Vector<N> drift = ham->dHdp(integrateState.x0, integrateState.v0);
