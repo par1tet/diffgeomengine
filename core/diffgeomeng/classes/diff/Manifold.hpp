@@ -73,7 +73,7 @@ State<N> Manifold<N>::normalizeVelocity(State<N> state, double normal, bool isLo
     std::array<std::array<double, N>, N> g;
 
     if(isReverseMatrix){
-        g = this->metric->getReverseInPoint(newState.x0);
+        g = this->metric->getReverseMatrixInPoint(newState.x0);
     }else{
         g = this->metric->getMatrixAtPoint(newState.x0);
     }
@@ -145,7 +145,7 @@ std::array<double, N> Manifold<N>::normalizeVector(std::array<double, N> vector,
     std::array<std::array<double, N>, N> g;
 
     if(isReverseMatrix){
-        g = this->metric->getReverseInPoint(point);
+        g = this->metric->getReverseMatrixInPoint(point);
     }else{
         g = this->metric->getMatrixAtPoint(point);
     }

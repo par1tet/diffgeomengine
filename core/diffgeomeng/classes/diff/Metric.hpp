@@ -21,6 +21,7 @@ public:
 
     std::function<double(const Point<N>&)> getComponent(int i, int j);
     double getReverseInPoint(Point<N> point, int i, int j);
+    std::array<std::array<double, N>, N> getReverseMatrixInPoint(Point<N> point);
     int getSize();
 
     std::array<std::array<double, N>, N> getMatrixAtPoint(Point<N> point);
@@ -93,6 +94,19 @@ double Metric<N>::getReverseInPoint(Point<N> point, int i, int j){
     checkRightIndices(i, j, this->metricComponents);
 
     return invertComponentMatrix<N>((this->metricComponents), point)[i][j];
+}
+
+template<size_t N>
+std::array<std::array<double, N>, N> Metric<N>::getReverseMatrixInPoint(Point<N> point){
+    std::array<std::array<double, N>, N> gInv;
+
+    for(int i = 0;i != N;i++){
+        for(int j = 0;j != N;j++){
+            gInv = this->getReverseInPoint(point, i, j);
+        }
+    }
+
+    return gInv;
 }
 
 template<size_t N>
