@@ -20,11 +20,11 @@ public:
     virtual ~Metric() = default;
 
     std::function<double(const Point<N>&)> getComponent(int i, int j);
-    double getReverseInPoint(Point<N> point, int i, int j);
-    std::array<std::array<double, N>, N> getReverseMatrixInPoint(Point<N> point);
+    virtual double getReverseInPoint(Point<N> point, int i, int j);
+    virtual std::array<std::array<double, N>, N> getReverseMatrixInPoint(Point<N> point);
     int getSize();
 
-    std::array<std::array<double, N>, N> getMatrixAtPoint(Point<N> point);
+    virtual std::array<std::array<double, N>, N> getMatrixAtPoint(Point<N> point);
     bool getIsDiagonal();
 
     double getInvariant(State<N> state);
