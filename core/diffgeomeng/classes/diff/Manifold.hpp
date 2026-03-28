@@ -139,7 +139,7 @@ State<N> Manifold<N>::normalizeVelocity(State<N> state, double normal, bool isLo
 
 
 template <size_t N>
-std::array<double, N> Manifold<N>::normalizeVector(std::array<double, N> vector, Point<N> point, double normal, bool isLogging){
+std::array<double, N> Manifold<N>::normalizeVector(std::array<double, N> vector, Point<N> point, double normal, bool isLogging, bool isReverseMatrix){
     std::array<double, N> newVector = vector;
 
     std::array<std::array<double, N>, N> g;
