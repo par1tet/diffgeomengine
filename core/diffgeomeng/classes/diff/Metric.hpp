@@ -102,7 +102,7 @@ std::array<std::array<double, N>, N> Metric<N>::getReverseMatrixInPoint(Point<N>
 
     for(int i = 0;i != N;i++){
         for(int j = 0;j != N;j++){
-            gInv = this->getReverseInPoint(point, i, j);
+            gInv[i][j] = this->getReverseInPoint(point, i, j);
         }
     }
 
