@@ -12,11 +12,11 @@ public:
     ~Manifold();
 
     Metric<N>* getMetric();
-    State<N> normalizeVelocity(State<N> state, double normal = 1.0, bool isLogging = false);
+    State<N> normalizeVelocity(State<N> state, double normal = 1.0, bool isLogging = false, bool isReverseMatrix = false);
     Geodesic<N>* getGeodesic();
     int getDimension();
     Point<N> doEmbedding(Point<N> x);
-    std::array<double, N> normalizeVector(std::array<double, N> vector, Point<N> point, double normal = 1.0, bool isLogging = false);
+    std::array<double, N> normalizeVector(std::array<double, N> vector, Point<N> point, double normal = 1.0, bool isLogging = false, bool isReverseMatrix = false);
     
 private:
     Metric<N>* metric;
@@ -67,10 +67,16 @@ Point<N> Manifold<N>::doEmbedding(Point<N> x){
 }
 
 template <size_t N>
-State<N> Manifold<N>::normalizeVelocity(State<N> state, double normal, bool isLogging){
+State<N> Manifold<N>::normalizeVelocity(State<N> state, double normal, bool isLogging, bool isReverseMatrix){
     State<N> newState = State<N>(state);
 
-    std::array<std::array<double, N>, N> g = this->metric->getMatrixAtPoint(newState.x0);
+    std::array<std::array<double, N>, N> g;
+
+    if(isReverseMatrix){
+        g = this->metric->getReverseInPoint(newState.x0);
+    }else{
+        g = this->metric->getMatrixAtPoint(newState.x0);
+    }
 
     double length2 = 0.0;
 
@@ -135,7 +141,14 @@ State<N> Manifold<N>::normalizeVelocity(State<N> state, double normal, bool isLo
 template <size_t N>
 std::array<double, N> Manifold<N>::normalizeVector(std::array<double, N> vector, Point<N> point, double normal, bool isLogging){
     std::array<double, N> newVector = vector;
-    std::array<std::array<double, N>, N> g = this->metric->getMatrixAtPoint(point);
+
+    std::array<std::array<double, N>, N> g;
+
+    if(isReverseMatrix){
+        g = this->metric->getReverseInPoint(point);
+    }else{
+        g = this->metric->getMatrixAtPoint(point);
+    }
 
     double length2 = 0.0;
 
